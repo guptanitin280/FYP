@@ -52,16 +52,12 @@ Output BruteForce::solve() {
         }
     }
 
-    unordered_set<string> included;
     for (uint64_t k = 0; k < input.numberOfClients; k++) {
         if (mask & (1ull << k)) {
             for (auto &c: input.featureLiked[k]) {
-                included.insert(c);
+                output.features.insert(c);
             }
         }
-    }
-    for (auto &c: included) {
-        output.features.push_back(c);
     }
     return output;
 
