@@ -8,6 +8,8 @@
 #include "../shared/Input.h"
 #include "../shared/Output.h"
 
+const int MAX_SIZE = 25;
+
 class BruteForce {
 public:
     Input input;
