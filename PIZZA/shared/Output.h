@@ -4,11 +4,12 @@
 
 #ifndef FYP_OUTPUT_H
 #define FYP_OUTPUT_H
-
+#include <bits/stdc++.h>
+using namespace std;
 
 class Output {
 public:
-    vector <string> features;
+  set<string> features;
 };
 
 
