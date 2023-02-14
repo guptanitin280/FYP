@@ -5,9 +5,11 @@
 #ifndef FYP_SCORE_H
 #define FYP_SCORE_H
 
-
+#include "Input.h"
+#include "Output.h"
 class Score {
-
+public:
+  static int calculate(const Input &input, const Output &output);
 };
 
 
