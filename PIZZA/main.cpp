@@ -1,14 +1,34 @@
 #include<bits/stdc++.h>
 #include "algorithms/BruteForce.h"
+#include "algorithms/Greedy.h"
+#include "shared/Graph.h"
+#include "shared/Score.h"
 using namespace std;
 
+template<typename A, typename B> ostream& operator<<(ostream &os, const pair<A, B> &p) { return os << '(' << p.first << ", " << p.second << ')'; }
+template<typename T_container, typename T = typename enable_if<!is_same<T_container, string>::value, typename T_container::value_type>::type> ostream& operator<<(ostream &os, const T_container &v) { os << '{'; string sep; for (const T &x : v) os << sep << x, sep = ", "; return os << '}'; }
+
+void dbg_out() { cerr << endl; }
+template<typename Head, typename... Tail> void dbg_out(Head H, Tail... T) { cerr << ' ' << H; dbg_out(T...); }
+
 int main() {
-    string filePath = "test_data/a.txt";
+    string filePath = "test_data/d_difficult.in.txt";
+
     BruteForce bf(filePath);
     Output o = bf.solve();
-    for(auto &c:o.features){
-        cout<<c<<" ";
-    }
-    cout<<endl;
+    dbg_out(o.features);
+
+    Greedy gd(filePath);
+    Output greedy_output = gd.solve();
+    dbg_out(greedy_output.features);
+
+    dbg_out(Score::calculate(gd.input,greedy_output));
+
+//    Graph gp(filePath);
+//    cout<<gp.numberOfClients<<endl;
+//    dbg_out(gp.G);
+
+
     return 0;
 }
+
