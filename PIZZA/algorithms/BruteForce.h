@@ -5,8 +5,8 @@
 #ifndef FYP_BRUTEFORCE_H
 #define FYP_BRUTEFORCE_H
 
-#include "Input.h"
-#include "Output.h"
+#include "../shared/Input.h"
+#include "../shared/Output.h"
 
 class BruteForce {
 public:

@@ -9,5 +9,5 @@ BruteForce::BruteForce(Input _input) : input(_input) {
 }
 
 Output BruteForce::solve() {
-
+    return output;
 }
