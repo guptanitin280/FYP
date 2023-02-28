@@ -12,7 +12,7 @@ void dbg_out() { cerr << endl; }
 template<typename Head, typename... Tail> void dbg_out(Head H, Tail... T) { cerr << ' ' << H; dbg_out(T...); }
 
 int main() {
-    string filePath = "test_data/d_difficult.in.txt";
+    string filePath = "test_data/a.txt";
 
     BruteForce bf(filePath);
     Output o = bf.solve();

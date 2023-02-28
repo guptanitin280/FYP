@@ -5,14 +5,14 @@
 #include "Graph.h"
 #include "Input.h"
 
-Graph::Graph(Input _input): input(_input) {
+Graph::Graph(Input _input,bool invert): input(_input) {
     numberOfClients = _input.numberOfClients;
     G.resize(numberOfClients);
 
-    for(int i=0;i<numberOfClients;i++){
-        for(int j=i+1;j<numberOfClients;j++){
-            if(! areCompatible(i,j))
-                addEdge(i,j);
+    for (int i = 0; i < numberOfClients; i++) {
+        for (int j = i + 1; j < numberOfClients; j++) {
+            if (areCompatible(i, j) == invert)
+                addEdge(i, j);
         }
     }
 

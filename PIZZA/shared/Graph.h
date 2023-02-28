@@ -18,7 +18,7 @@ public:
     Input input;
     vector<vector<client_id>>G;
 
-    explicit Graph(Input _input);
+    explicit Graph(Input _input,bool invert=false);
 
     void addEdge(client_id client1,client_id client2);
 
