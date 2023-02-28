@@ -17,6 +17,7 @@ public:
     uint32_t numberOfClients;
     Input input;
     vector<vector<client_id>>G;
+    vector<pair<client_id ,client_id >> edges;
 
     explicit Graph(Input _input);
 
