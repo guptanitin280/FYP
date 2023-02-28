@@ -21,6 +21,8 @@ Graph::Graph(Input _input,bool invert): input(_input) {
 void Graph::addEdge(client_id client1, client_id client2) {
     G[client1].push_back(client2);
     G[client2].push_back(client1);
+    edges.emplace_back(client1,client2);
+    edges.emplace_back(client2,client1);
 }
 
 bool Graph::areCompatible(client_id client1, client_id client2) {
