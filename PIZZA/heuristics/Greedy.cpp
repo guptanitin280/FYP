@@ -5,7 +5,7 @@
 #include "Greedy.h"
 
 
-vector<bool> Greedy(Graph input){
+vector<bool> Greedy(Graph& input){
     vector<bool>output;
     output.resize(input.numberOfClients,false);
     using client_id = uint32_t;
@@ -37,7 +37,7 @@ vector<bool> Greedy(Graph input){
         for (auto[client, decrement]: toDecrease) {
             minSet.erase({degrees[client], client});
             degrees[client] -= decrement;
-            minSet.insert({degrees[client], client});
+            if(!done[client])minSet.insert({degrees[client], client});
         }
         minSet.erase(it);
     }

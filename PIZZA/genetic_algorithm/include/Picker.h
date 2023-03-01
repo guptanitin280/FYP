@@ -26,7 +26,7 @@ namespace genetic{
             uint32_t max_fitness = 0;
             int best = -1;
             for (size_t i = 0; i < sample_size; ++i) {
-                auto idx = static_cast<int>(rand(0,generation.size()));
+                auto idx = static_cast<int>(rand(0,(int)generation.size() -1));
                 auto fitness = generation[idx].calc_fitness();
                 if (fitness > max_fitness) {
                     max_fitness = fitness;

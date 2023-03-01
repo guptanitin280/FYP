@@ -33,7 +33,6 @@ Genome::Genome(uint32_t _n,Graph& _g,vector<bool>_bits,uint32_t (* _f)(Genome&))
 
 void Genome::modify_gene(vector<bool> new_gene){
     bits=new_gene;
-    calc_fitness();
 }
 
 uint32_t Genome::calc_fitness() {
