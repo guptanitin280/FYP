@@ -4,20 +4,10 @@
 
 #ifndef FYP_GREEDY_H
 #define FYP_GREEDY_H
-
-#include "../shared/Input.h"
-#include "../shared/Output.h"
-#include "../shared/utils.h"
+#include<bits/stdc++.h>
 #include "../shared/Graph.h"
 
+vector<bool> Greedy(Graph input);
 
-class Greedy {
-public:
-    Graph input;
-    vector<bool> output;
-
-    explicit Greedy(Graph _input);
-    vector<bool> get();
-};
 
 #endif //FYP_GREEDY_H

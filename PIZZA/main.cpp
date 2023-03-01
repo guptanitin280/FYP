@@ -18,8 +18,7 @@ int main() {
 
     Input input(filePath);
     Graph g(input);
-    Greedy gg(g);
-    dbg_out(gg.get());
+    dbg_out(Greedy(g));
 //    aco solver=aco(input);
 //    Output o=solver.run(1);
 //    dbg_out(o.features);

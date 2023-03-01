@@ -4,11 +4,10 @@
 
 #include "Greedy.h"
 
-Greedy::Greedy(Graph _input) : input(_input) {
-    output.resize(input.numberOfClients,false);
-}
 
-vector<bool> Greedy::get() {
+vector<bool> Greedy(Graph input){
+    vector<bool>output;
+    output.resize(input.numberOfClients,false);
     using client_id = uint32_t;
     uint32_t numberOfClients = input.numberOfClients;
 
