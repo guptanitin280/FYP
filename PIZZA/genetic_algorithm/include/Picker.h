@@ -12,9 +12,10 @@ namespace genetic{
 
     class Picker{
     public:
-        virtual ~Picker();
+        virtual ~Picker()=default;
         virtual uint32_t pick(vector<genetic::Genome>& generation)=0;
     };
+
 
     class RandomBestPicker:public virtual Picker{
     public:
@@ -36,6 +37,8 @@ namespace genetic{
             assert(best != -1);
             return best;
         };
+
+        ~RandomBestPicker()=default;
     };
 
 

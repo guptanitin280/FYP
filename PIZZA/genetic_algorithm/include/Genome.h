@@ -18,6 +18,7 @@ namespace genetic{
         uint32_t (* func_ptr)(Genome&) ;
         uint32_t fitness;
 
+        Genome();
         Genome(uint32_t _n,Graph& _g);
         Genome(uint32_t _n,Graph& _g,vector<bool> _bits);
         Genome(uint32_t _n,Graph& _g,uint32_t (* _f)(Genome&));

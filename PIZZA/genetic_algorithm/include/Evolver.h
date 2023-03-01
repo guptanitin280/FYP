@@ -12,10 +12,11 @@ namespace genetic{
 
     class Evolver{
     public:
-        virtual ~Evolver();
+        virtual ~Evolver()=default;
         virtual void evolve(vector<bool>& gene)=0;
         virtual void update_rate(uint32_t iter)=0;
     };
+
 
     class SimpleEvolver:public virtual Evolver{
     public:
@@ -31,6 +32,7 @@ namespace genetic{
 
         void update_rate(uint32_t iter) override{
         }
+        ~SimpleEvolver()=default;
     };
 
 }

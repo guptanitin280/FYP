@@ -15,6 +15,8 @@
 #include "../../shared/Graph.h"
 #include "../../shared/utils.h"
 
+void greedy_local_search(std::vector<bool>& bv, const Graph& graph);
+
 namespace genetic{
 
     class GeneticSolver{
@@ -27,11 +29,14 @@ namespace genetic{
         Evolver& evolver;
         Breeder& breeder;
         uint32_t (* fitness_fun)(Genome&) ;
-        Genome (* simple_mis)(Graph&);
+        vector<bool> (* simple_mis)(Graph&);
         vector<Genome> population;
         HashTable duplicates;
 
-        GeneticSolver(uint32_t _n,Graph& _g,uint32_t _popSize,Picker& _picker,Evolver& _evolver,Breeder& _breeder,uint32_t (* _f)(Genome&),Genome (* _baseMis)(Graph&));
+        uint32_t maxFitness;
+        Genome bestGenome;
+
+        GeneticSolver(uint32_t _n,Graph& _g,uint32_t _popSize,Picker& _picker,Evolver& _evolver,Breeder& _breeder,uint32_t (* _f)(Genome&),vector<bool> (* _baseMis)(Graph&));
 
         Genome Solve(uint32_t iterations);
 
