@@ -1,0 +1,32 @@
+//
+// Created by Asus-2021 on 2/28/2023.
+//
+
+#ifndef FYP_ACO_H
+#define FYP_ACO_H
+
+#include <cstdint>
+#include "../../shared/Graph.h"
+#include "../../shared/Output.h"
+
+class aco{
+    uint32_t num_ants;
+    long double min_pheromone;
+    long double max_pheromone;
+    long double alpha;
+    long double evaporation;
+    uint32_t max_cycles;
+    Graph graph;
+    Input input;
+    vector<unordered_map<uint32_t ,long double>>pheromone;
+    Output output;
+
+public:
+    aco(Input _input);
+    set<uint32_t> findMaxClique();
+    Output run(int _max_cycles);
+    void evaporatePheromone();
+    void replenishPheromone(long double u,long double v,set<uint32_t>&finalClique);
+};
+
+#endif //FYP_ACO_H
