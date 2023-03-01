@@ -12,14 +12,18 @@ namespace genetic{
 
     class Breeder{
     public:
-        virtual ~Breeder();
+        virtual ~Breeder()=default;
+
         virtual vector<bool> breed(genetic::Genome &gene1, genetic::Genome &gene2)=0;
     };
+
+
+
 
     class RandomBreeder:public virtual Breeder{
     public:
 
-        RandomBreeder(uint32_t _n){};
+        RandomBreeder(){};
         virtual vector<bool> breed(genetic::Genome &gene1, genetic::Genome &gene2) override{
             assert(gene1.n == gene2.n);
             genetic::Genome child=gene1;
@@ -32,6 +36,7 @@ namespace genetic{
             }
             return child.bits;
         };
+        ~RandomBreeder()=default;
     };
 
 
