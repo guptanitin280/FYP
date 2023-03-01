@@ -4,8 +4,15 @@
 
 #include "utils.h"
 
-uint32_t rand(uint32_t x,uint32_t y){
-return std::uniform_int_distribution<uint32_t>(x,y)(rng);
+uint32_t rand(uint32_t x,uint32_t y) {
+    return std::uniform_int_distribution<uint32_t>(x, y)(rng);
+}
+
+uint32_t rand(std::vector<long double>prob) {
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::discrete_distribution<> dist(prob.begin(), prob.end());
+    return dist(gen);
 }
 
 double get_probability(){

@@ -12,9 +12,10 @@ namespace genetic{
 
     class Picker{
     public:
-        virtual ~Picker();
+        virtual ~Picker()=default;
         virtual uint32_t pick(vector<genetic::Genome>& generation)=0;
     };
+
 
     class RandomBestPicker:public virtual Picker{
     public:
@@ -25,7 +26,7 @@ namespace genetic{
             uint32_t max_fitness = 0;
             int best = -1;
             for (size_t i = 0; i < sample_size; ++i) {
-                auto idx = static_cast<int>(rand(0,generation.size()));
+                auto idx = static_cast<int>(rand(0,(int)generation.size() -1));
                 auto fitness = generation[idx].calc_fitness();
                 if (fitness > max_fitness) {
                     max_fitness = fitness;
@@ -36,6 +37,8 @@ namespace genetic{
             assert(best != -1);
             return best;
         };
+
+        ~RandomBestPicker()=default;
     };
 
 

@@ -9,10 +9,10 @@
 #include <string> //std::string
 #include <vector> //std::vector
 
-std::mt19937  rng(std::chrono::steady_clock::now().time_since_epoch().count());
+inline std::mt19937  rng(std::chrono::steady_clock::now().time_since_epoch().count());
 uint32_t rand(uint32_t x,uint32_t y);
 double get_probability();
-
+uint32_t rand(std::vector<long double>prob);
 std::vector<std::string> intersection(std::vector<std::string> v1,
                                       std::vector<std::string> v2);
 
