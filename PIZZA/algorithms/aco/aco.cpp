@@ -7,7 +7,17 @@
 #include <utility>
 #include "../../shared/utils.h"
 
-aco::aco(Input _input) :input(_input),graph(_input,true) {
+aco::aco(const Graph& graph) : graph(graph), input(){
+    num_ants = 10;
+    min_pheromone = 0.5;
+    max_pheromone = 10;
+    alpha = 3;
+    max_cycles = 1000;
+    evaporation = 0.9;
+    pheromone.resize(graph.numberOfClients);
+}
+
+aco::aco(const Input& _input) :input(_input),graph(_input,true) {
     num_ants = 10;
     min_pheromone = 0.5;
     max_pheromone = 10;
@@ -102,6 +112,7 @@ Output aco::run(int _max_cycles) {
             finalClique = max_clique;
         }
         replenishPheromone(u, v, finalClique);
+        cout<<finalClique.size()<<endl;
     }
 
     for (auto &c: finalClique) {

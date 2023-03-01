@@ -13,14 +13,32 @@ template<typename T_container, typename T = typename enable_if<!is_same<T_contai
 void dbg_out() { cerr << endl; }
 template<typename Head, typename... Tail> void dbg_out(Head H, Tail... T) { cerr << ' ' << H; dbg_out(T...); }
 
-int main() {
-    string filePath = "test_data/c.txt";
+Graph solve(string filePath) {
+    ifstream file;
+    file.open(filePath);
+    Graph graph;
+    file >> graph.numberOfClients;
+    int edges;
+    file >> edges;
+    graph.G.resize(graph.numberOfClients);
+    for (int i = 0; i < edges; i++) {
+        uint32_t u, v;
+        file >> u >> v;
+        --u;
+        --v;
+        graph.addEdge(u, v);
+    }
+    return graph;
+}
 
-    Input input(filePath);
-    Graph g(input);
-    dbg_out(Greedy(g));
-//    aco solver=aco(input);
-//    Output o=solver.run(1);
+int main() {
+    string filePath = "../DIMAC_graphs/brock200-2.txt";
+
+    Input input;
+    Graph g=(solve(filePath));
+
+    aco solver=aco(g);
+    Output o=solver.run(3001);
 //    dbg_out(o.features);
 //    dbg_out(Score::calculate(input,o));
 

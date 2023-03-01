@@ -5,6 +5,10 @@
 #include "Graph.h"
 #include "Input.h"
 
+Graph::Graph() {
+
+}
+
 Graph::Graph(Input _input,bool invert): input(_input) {
     numberOfClients = _input.numberOfClients;
     G.resize(numberOfClients);
