@@ -1,6 +1,6 @@
 #include<bits/stdc++.h>
 #include "algorithms/BruteForce.h"
-#include "algorithms/Greedy.h"
+#include "heuristics/Greedy.h"
 #include "shared/Graph.h"
 #include "shared/Score.h"
 #include "algorithms/aco/aco.h"
@@ -14,13 +14,16 @@ void dbg_out() { cerr << endl; }
 template<typename Head, typename... Tail> void dbg_out(Head H, Tail... T) { cerr << ' ' << H; dbg_out(T...); }
 
 int main() {
-    string filePath = "test_data/e.txt";
+    string filePath = "test_data/c.txt";
 
     Input input(filePath);
-    aco solver=aco(input);
-    Output o=solver.run(1);
-    dbg_out(o.features);
-    dbg_out(Score::calculate(input,o));
+    Graph g(input);
+    Greedy gg(g);
+    dbg_out(gg.get());
+//    aco solver=aco(input);
+//    Output o=solver.run(1);
+//    dbg_out(o.features);
+//    dbg_out(Score::calculate(input,o));
 
 //    BruteForce bf(filePath);
 //    Output o = bf.solve();
