@@ -4,6 +4,10 @@
 
 #include "Input.h"
 
+Input::Input() {
+
+}
+
 Input::Input(string _filePath) {
     ifstream file;
     file.open("../"+_filePath);

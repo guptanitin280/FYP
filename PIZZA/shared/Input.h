@@ -15,6 +15,7 @@ public:
     vector<vector<string>>featureDisLiked;
 
     Input(string _filePath);
+    Input();
 };
 
 

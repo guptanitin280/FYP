@@ -22,7 +22,8 @@ class aco{
     Output output;
 
 public:
-    aco(Input _input);
+    aco(const Input& _input);
+    aco(const Graph& graph);
     set<uint32_t> findMaxClique();
     Output run(int _max_cycles);
     void evaporatePheromone();
