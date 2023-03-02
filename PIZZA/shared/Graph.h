@@ -25,6 +25,8 @@ public:
     void addEdge(client_id client1,client_id client2);
 
     bool areCompatible(client_id client1,client_id client2);
+
+    void fillAdjacencyList();
 };
 
 #endif //FYP_GRAPH_H
