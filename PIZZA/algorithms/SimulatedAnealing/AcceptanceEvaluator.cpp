@@ -43,7 +43,7 @@ SA_soln_status AcceptanceEvaluator::operator()(const vector<bool> &cur_sol,
     return SA_soln_status::CHANGE;
   }
   this->not_changed_until++;
-  if (this->not_changed_until > this->good_to_break_threshhold) {
+  if (this->not_changed_until < this->good_to_break_threshhold) {
     this->not_changed_until = 0;
     return SA_soln_status::GOOD_TO_BREAK;
   }

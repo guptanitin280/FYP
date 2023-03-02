@@ -19,7 +19,7 @@ class SimulatedAnealing {
   Graph g;
   init_solver_ptr init_solver;
   double update_temp(double cur_temp);
-  vector<bool> &generate_next_solution(const vector<bool> &cur_sol);
+  vector<bool> generate_next_solution(const vector<bool> &cur_sol);
   AcceptanceEvaluator acceptable;
 
 public:
