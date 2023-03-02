@@ -8,7 +8,7 @@ add_library(genetic_lib)
 target_sources(genetic_lib PUBLIC genetic_algorithm/heuristics/fitness_functions/NumberOfOnes.cpp genetic_algorithm/heuristics/fitness_functions/NumberOfOnes.h genetic_algorithm/include/Breeder.h genetic_algorithm/include/Evolver.h genetic_algorithm/include/GeneticSolver.h genetic_algorithm/include/Genome.h genetic_algorithm/include/Picker.h genetic_algorithm/src/GeneticSolver.cpp genetic_algorithm/src/Genome.cpp
         )
 
-add_library(heuristics_lib)
+add_library(heuristics_lib heuristics/RandomGreedy.cpp heuristics/RandomGreedy.h)
 target_sources(heuristics_lib PUBLIC heuristics/Greedy.cpp heuristics/Greedy.h)
 
 set(SA_LIB_SOURCES algorithms/SimulatedAnealing/SimulatedAnealing.cpp
