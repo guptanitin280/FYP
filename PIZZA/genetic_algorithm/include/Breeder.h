@@ -26,9 +26,9 @@ namespace genetic{
         RandomBreeder(){};
         virtual vector<bool> breed(genetic::Genome &gene1, genetic::Genome &gene2) override{
             assert(gene1.n == gene2.n);
-            genetic::Genome child=gene1;
             double gene1_fitness=gene1.calc_fitness(),gene2_fitness=gene2.calc_fitness();
-            double flip_to_gene2= gene2_fitness/(gene1_fitness + gene2_fitness);
+            genetic::Genome child=gene1;
+            double flip_to_gene2= std::sqrt(gene2_fitness/2)/(gene1_fitness + gene2_fitness);
             for(uint32_t i=0;i<gene1.n;i++){
                 if(get_probability()<flip_to_gene2){
                     child.bits[i]=gene2.bits[i];

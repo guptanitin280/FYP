@@ -6,7 +6,7 @@
 #include "genetic_algorithm/include/Genome.h"
 #include "genetic_algorithm/include/Picker.h"
 #include "genetic_algorithm/heuristics/fitness_functions/NumberOfOnes.h"
-#include "heuristics/Greedy.h"
+#include "heuristics/RandomGreedy.h"
 
 
 vector<bool> timepass(Graph& g){
@@ -31,12 +31,13 @@ int main() {
 
     Graph gp(filePath);
     cout<<"Graph Made"<<endl;
-    RandomBestPicker picker(5);
-    SimpleEvolver evolver(0.05);
+    RandomBestPicker picker(100);
+    SimpleEvolver evolver(0.03);
     RandomBreeder breeder;
-    GeneticSolver solver(gp.numberOfClients,gp,10,picker,evolver,breeder,numberOfOnes,Greedy);
-    Genome result=solver.Solve(5);
+    GeneticSolver solver(gp.numberOfClients,gp,200,picker,evolver,breeder,numberOfOnes,RandomGreedy);
+    Genome result=solver.Solve(750);
     cout<<result.is_independent_set()<<endl;
+    cout<<result.countOnes()<<endl;
     cout<<"final ans"<<result.bits<<endl;
 //    cout<<gp.numberOfClients<<endl;
 //    dbg_out(gp.G);
