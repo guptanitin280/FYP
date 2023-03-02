@@ -6,7 +6,6 @@
 #include "AcceptanceEvaluator.h"
 #include "SA_HyperParameters.h"
 #include <cstdint>
-#include <sys/_types/_int32_t.h>
 #include <vector>
 using namespace std;
 using init_solver_ptr = vector<bool> (*)(const Graph &);

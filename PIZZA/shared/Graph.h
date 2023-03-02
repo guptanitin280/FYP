@@ -27,7 +27,7 @@ public:
 
     bool areCompatible(client_id client1,client_id client2);
 
-    void fillAdjacencyList();
+    void fillAdjacencyList(bool invert);
 };
 
 #endif //FYP_GRAPH_H

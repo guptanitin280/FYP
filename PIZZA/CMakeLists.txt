@@ -15,8 +15,9 @@ set(SA_LIB_SOURCES algorithms/SimulatedAnealing/SimulatedAnealing.cpp
     algorithms/SimulatedAnealing/CostEvaluator.cpp
     algorithms/SimulatedAnealing/AcceptanceEvaluator.cpp)
 
+set(ACO_LIB_SOURCES algorithms/aco/aco.h algorithms/aco/evaporatePheromone.cpp algorithms/aco/intialisePheromone.cpp algorithms/aco/replenishPheromone.cpp algorithms/aco/runAnts.cpp)
 add_library(optimization_lib )
 target_sources(optimization_lib PUBLIC algorithms/aco/aco.h algorithms/aco/aco.cpp algorithms/Greedy.cpp algorithms/BruteForce.cpp algorithms/BruteForce.h shared/Graph.cpp shared/Graph.h shared/utils.cpp shared/utils.h shared/Score.cpp shared/Score.h  shared/Input.h shared/Input.cpp)
-add_executable(FYP main.cpp ${SA_LIB_SOURCES})
+add_executable(FYP main.cpp ${SA_LIB_SOURCES} ${ACO_LIB_SOURCES})
 target_link_libraries(FYP optimization_lib genetic_lib heuristics_lib)
 

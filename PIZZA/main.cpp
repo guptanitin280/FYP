@@ -13,7 +13,7 @@ template<typename T_container, typename T = typename enable_if<!is_same<T_contai
 void dbg_out() { cerr << endl; }
 template<typename Head, typename... Tail> void dbg_out(Head H, Tail... T) { cerr << ' ' << H; dbg_out(T...); }
 
-Graph solve(string filePath) {
+Graph solve(const string& filePath) {
     ifstream file;
     file.open(filePath);
     Graph graph;
@@ -32,21 +32,21 @@ Graph solve(string filePath) {
 }
 
 int main() {
-//    string filePath = "../DIMAC_graphs/gen400-p0-9-75.txt";
-//
-//    Input input;
-//    Graph g=(solve(filePath));
-//
-//    aco solver=aco(g);
-//    Output o=solver.run(3001);
+    string filePath = "../DIMAC_graphs/gen400-p0-9-55.txt";
 
+    Input input;
+    Graph g=(solve(filePath));
 
-
-    string filePath = "test_data/e.txt";
-
-
-    aco solver=aco(Input(filePath));
+    aco solver=aco(g);
     Output o=solver.run(3001);
+
+
+
+//    string filePath = "test_data/e.txt";
+
+
+//    aco solver=aco(Input(filePath));
+//    Output o=solver.run(3001);
 //    dbg_out(o.features);
 //    dbg_out(Score::calculate(input,o));
 

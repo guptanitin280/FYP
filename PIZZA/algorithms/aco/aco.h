@@ -10,13 +10,13 @@
 #include "../../shared/Graph.h"
 #include "../../shared/Output.h"
 
-const int MAX = 5001;
 class aco{
     uint32_t num_ants;
     long double min_pheromone;
     long double max_pheromone;
     long double alpha;
     long double evaporation;
+    long double initialCliqueCnt;
     uint32_t max_cycles;
     Graph graph;
     Input input;
@@ -30,6 +30,7 @@ public:
     Output run(int _max_cycles);
     void evaporatePheromone();
     void replenishPheromone(long double u,long double v,set<uint32_t>&finalClique);
+    void intialisePheromone();
 };
 
 #endif //FYP_ACO_H
