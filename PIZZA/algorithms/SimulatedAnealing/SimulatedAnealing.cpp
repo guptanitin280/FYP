@@ -29,11 +29,16 @@ vector<bool> SimulatedAnealing::solve() {
   vector<bool> cur_sol = this->init_solver(g);
   SA_soln_status status;
   double cur_temp = init_temp;
-
-  while (cur_temp > init_temp) {
+  int p = 0;
+  for (auto x : cur_sol) {
+    p += x;
+  }
+  cout << "initial val : " << p << endl;
+  while (cur_temp > end_temp) {
     for (int i = 0; i < num_iter; i++) {
       vector<bool> pos_sol = this->generate_next_solution(cur_sol);
       status = this->acceptable(cur_sol, pos_sol, cur_temp);
+
       if (status == SA_soln_status::CHANGE) {
         cur_sol = pos_sol;
       } else if (status == SA_soln_status::GOOD_TO_BREAK) {
@@ -41,7 +46,19 @@ vector<bool> SimulatedAnealing::solve() {
         break;
       }
     }
+    int p = 0;
+    for (auto x : cur_sol) {
+      p += x;
+    }
+    bool valid = true;
+    for (auto e : this->g.edges) {
+      if (cur_sol[e.first] && cur_sol[e.second]) {
+        valid = false;
+      }
+    }
     cur_temp = this->update_temp(cur_temp);
+    cout << "At temp " << cur_temp << " val : " << p
+         << " with valid : " << valid << endl;
   }
   return cur_sol;
 }

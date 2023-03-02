@@ -1,11 +1,12 @@
-#include<bits/stdc++.h>
 #include "algorithms/BruteForce.h"
 #include "algorithms/SimulatedAnealing/SA_HyperParameters.h"
 #include "algorithms/SimulatedAnealing/SimulatedAnealing.h"
+#include "algorithms/aco/aco.h"
 #include "heuristics/Greedy.h"
 #include "shared/Graph.h"
 #include "shared/Score.h"
-#include "algorithms/aco/aco.h"
+#include <bits/stdc++.h>
+#include <vector>
 
 using namespace std;
 
@@ -21,49 +22,59 @@ Graph solve(string filePath) {
     Graph graph;
     file >> graph.numberOfClients;
     int edges;
+    int n = graph.numberOfClients;
     file >> edges;
+    set<pair<int, int>> st;
     graph.G.resize(graph.numberOfClients);
     for (int i = 0; i < edges; i++) {
         uint32_t u, v;
         file >> u >> v;
         --u;
         --v;
-        graph.addEdge(u, v);
+        if (u > v)
+          swap(u, v);
+        st.insert({u, v});
+    }
+    for (int i = 0; i < n; i++) {
+        for (int j = i + 1; j < n; j++) {
+          if (st.count({i, j})) {
+            continue;
+          } else {
+            graph.addEdge(i, j);
+          }
+        }
     }
     return graph;
 }
 
 int main() {
     string filePath = "../DIMAC_graphs/brock200-2.txt";
-
+    string file = "test_data/e.txt";
     Input input;
-    Graph g=(solve(filePath));
+    //  Graph g=(solve(filePath));
+    Graph g(file);
+    //    dbg_out(o.features);
+    //    dbg_out(Score::calculate(input,o));
 
-    aco solver=aco(g);
-    Output o=solver.run(3001);
-//    dbg_out(o.features);
-//    dbg_out(Score::calculate(input,o));
+    //    BruteForce bf(filePath);
+    //    Output o = bf.solve();
+    //    dbg_out(o.features);
+    //
+    //    Greedy gd(filePath);
+    //    Output greedy_output = gd.solve();
+    //    dbg_out(greedy_output.features);
+    //
+    //    dbg_out(Score::calculate(gd.input,greedy_output));
 
-//    BruteForce bf(filePath);
-//    Output o = bf.solve();
-//    dbg_out(o.features);
-//
-//    Greedy gd(filePath);
-//    Output greedy_output = gd.solve();
-//    dbg_out(greedy_output.features);
-//
-//    dbg_out(Score::calculate(gd.input,greedy_output));
-
-//    Graph gp(filePath);
-//    cout<<gp.numberOfClients<<endl;
-//    dbg_out(gp.G);
-
+    //    Graph gp(filePath);
+    //    cout<<gp.numberOfClients<<endl;
+    //    dbg_out(gp.G);
 
     SA_HyperParams param;
     param.cool_down_rate = 0.96;
-    param.cost_eval = {-1.0, 1.0};
+    param.cost_eval = {-1.0, 5.0};
     param.init_temp = 60;
-    param.no_change_threshhold_per_it = 70;
+    param.no_change_threshhold_per_it = 200;
     param.end_temp = 0.06;
     param.num_iter = 100;
 
@@ -77,4 +88,3 @@ int main() {
     cout << ans << endl;
     return 0;
 }
-
