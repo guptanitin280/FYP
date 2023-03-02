@@ -32,12 +32,20 @@ Graph solve(string filePath) {
 }
 
 int main() {
-    string filePath = "../DIMAC_graphs/brock200-2.txt";
+//    string filePath = "../DIMAC_graphs/gen400-p0-9-75.txt";
+//
+//    Input input;
+//    Graph g=(solve(filePath));
+//
+//    aco solver=aco(g);
+//    Output o=solver.run(3001);
 
-    Input input;
-    Graph g=(solve(filePath));
 
-    aco solver=aco(g);
+
+    string filePath = "test_data/e.txt";
+
+
+    aco solver=aco(Input(filePath));
     Output o=solver.run(3001);
 //    dbg_out(o.features);
 //    dbg_out(Score::calculate(input,o));

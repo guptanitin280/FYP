@@ -8,33 +8,35 @@
 #include "../../shared/utils.h"
 
 aco::aco(const Graph& graph) : graph(graph), input(){
-    num_ants = 10;
-    min_pheromone = 0.5;
-    max_pheromone = 10;
-    alpha = 3;
+    num_ants = 30;
+    min_pheromone = 0.01;
+    max_pheromone = 4;
+    alpha = 2;
     max_cycles = 1000;
-    evaporation = 0.9;
+    evaporation = 0.995;
     pheromone.resize(graph.numberOfClients);
 }
 
 aco::aco(const Input& _input) :input(_input),graph(_input,true) {
-    num_ants = 10;
-    min_pheromone = 0.5;
-    max_pheromone = 10;
-    alpha = 3;
+    num_ants = 30;
+    min_pheromone = 0.01;
+    max_pheromone = 4;
+    alpha = 2;
     max_cycles = 1000;
-    evaporation = 0.9;
+    evaporation = 0.995;
     pheromone.resize(graph.numberOfClients);
 }
 
 set<uint32_t> aco::findMaxClique() {
-    set<uint32_t>max_clique;
+    vector<bool>max_clique;
     for (int i = 0; i < num_ants; i++) {
-        cout<<"ant "<<i<<endl;
-        set<uint32_t> currentClique, potentialClients;
+        vector<bool> currentClique, potentialClients;
+        currentClique.resize(graph.numberOfClients,false);
+        potentialClients.resize(graph.numberOfClients,false);
+
         uint32_t startingClient = rand((uint32_t) 0, (uint32_t) graph.numberOfClients - 1);
-        currentClique.insert(startingClient);
-        for (auto &c: graph.G[startingClient]) potentialClients.insert(c);
+        currentClique[startingClient]=true;
+        for (int j=0;j<graph.numberOfClients;j++) potentialClients[c]=true;
         while (!potentialClients.empty()) {
             vector<long double> prob;
             long double totProb = 0;

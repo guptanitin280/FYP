@@ -9,7 +9,7 @@ Graph::Graph() {
 
 }
 
-Graph::Graph(Input _input,bool invert): input(_input) {
+Graph::Graph(const Input& _input,bool invert): input(_input) {
     numberOfClients = _input.numberOfClients;
     G.resize(numberOfClients);
 

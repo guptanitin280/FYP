@@ -6,9 +6,11 @@
 #define FYP_ACO_H
 
 #include <cstdint>
+#include<bitset>
 #include "../../shared/Graph.h"
 #include "../../shared/Output.h"
 
+const int MAX = 5001;
 class aco{
     uint32_t num_ants;
     long double min_pheromone;
