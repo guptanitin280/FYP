@@ -51,10 +51,10 @@ int main() {
     string filePath = "../DIMAC_graphs/brock200-2.txt";
     string file = "test_data/e.txt";
     Input input;
-    //  Graph g=(solve(filePath));
-    Graph g(file);
-    //    dbg_out(o.features);
-    //    dbg_out(Score::calculate(input,o));
+    Graph g = (solve(filePath));
+    // Graph g(file);
+    //     dbg_out(o.features);
+    //     dbg_out(Score::calculate(input,o));
 
     //    BruteForce bf(filePath);
     //    Output o = bf.solve();
@@ -72,11 +72,11 @@ int main() {
 
     SA_HyperParams param;
     param.cool_down_rate = 0.96;
-    param.cost_eval = {-1.0, 5.0};
-    param.init_temp = 60;
+    param.cost_eval = {-1.0, 3.0};
+    param.init_temp = 100;
     param.no_change_threshhold_per_it = 200;
-    param.end_temp = 0.06;
-    param.num_iter = 100;
+    param.end_temp = 0.01;
+    param.num_iter = 500;
 
     SimulatedAnealing sm(g, Greedy, param);
     auto sol = sm.solve();
