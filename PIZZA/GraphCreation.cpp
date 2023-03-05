@@ -156,7 +156,7 @@ ll fdiv(ll a, ll b) { return a/b-((a^b)<0&&a%b); } // divide a by b rounded down
 bool ispow2(ll i) { return i && (i & -i) == i; } //checks if i is a power of 2
 
 const string path_input="../DIMAC_graphs/brock200-2.txt";
-const string output="../test_data/g.txt";
+const string output="../test_data/brock200-2.txt";
 ifstream fin(path_input);
 ofstream fout(output);
 
@@ -189,38 +189,38 @@ void solve(){
     ll cur=1;
     forx(ed){
         ll a=x[0],b=x[1];
-        ll hogya=0;
-        for(auto t:fliked[a]){
-            if(fdislike[b].count(t)){
-                hogya=1;
-                break;
-            }
-        }
-        if(hogya)continue;
-        for(auto t:fdislike[a]){
-            if(fliked[b].count(t)){
-                hogya=1;
-                break;
-            }
-        }
-        if(hogya)continue;
-        for(auto t:fliked[a]){
-            if(!fliked[b].count(t)){
-                fdislike[b].insert(t);
-                hogya=1;
-                break;
-            }
-        }
-        if(hogya)continue;
-
-        for(auto t:fliked[b]){
-            if(!fliked[a].count(t)){
-                fdislike[a].insert(t);
-                hogya=1;
-                break;
-            }
-        }
-        if(hogya)continue;
+//        ll hogya=0;
+//        for(auto t:fliked[a]){
+//            if(fdislike[b].count(t)){
+//                hogya=1;
+//                break;
+//            }
+//        }
+//        if(hogya)continue;
+//        for(auto t:fdislike[a]){
+//            if(fliked[b].count(t)){
+//                hogya=1;
+//                break;
+//            }
+//        }
+//        if(hogya)continue;
+//        for(auto t:fliked[a]){
+//            if(!fliked[b].count(t)){
+//                fdislike[b].insert(t);
+//                hogya=1;
+//                break;
+//            }
+//        }
+//        if(hogya)continue;
+//
+//        for(auto t:fliked[b]){
+//            if(!fliked[a].count(t)){
+//                fdislike[a].insert(t);
+//                hogya=1;
+//                break;
+//            }
+//        }
+//        if(hogya)continue;
         fliked[a].insert(cur);
         fdislike[b].insert(cur);
         cur++;

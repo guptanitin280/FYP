@@ -9,10 +9,10 @@
 aco::aco(const Graph& graph) : graph(graph), input() {
     num_ants = 10;
     min_pheromone = 0.5;
-    max_pheromone = 10;
+    max_pheromone = 20;
     alpha = 2;
     max_cycles = 1000;
-    evaporation = 0.980;
+    evaporation = 0.995;
     initialCliqueCnt = 5;
     pheromone.resize(graph.numberOfClients);
 }
@@ -20,17 +20,18 @@ aco::aco(const Graph& graph) : graph(graph), input() {
 aco::aco(const Input& _input) :input(_input),graph(_input,true) {
     num_ants = 10;
     min_pheromone = 0.5;
-    max_pheromone = 10;
+    max_pheromone = 20;
     alpha = 2;
     max_cycles = 1000;
-    evaporation = 0.980;
-    initialCliqueCnt = 5;
+    evaporation = 0.995;
+    initialCliqueCnt = 50;
+    cout<<graph.edges.size()<<endl;
     pheromone.resize(graph.numberOfClients);
 }
 
 Output aco::run(int _max_cycles) {
     max_cycles = _max_cycles;
-    aco::intialisePheromone();
+    aco::initialisePheromoneClassicWay();
     set<uint32_t> finalClique;
     for (int j = 0; j < max_cycles; j++) {
         cout<<"cycle "<<j<<endl;

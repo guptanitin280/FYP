@@ -30,7 +30,8 @@ public:
     Output run(int _max_cycles);
     void evaporatePheromone();
     void replenishPheromone(long double u,long double v,set<uint32_t>&finalClique);
-    void intialisePheromone();
+    void initialisePheromoneClassicWay();
+    void initialisePheromoneHeuristicWay();
 };
 
 #endif //FYP_ACO_H

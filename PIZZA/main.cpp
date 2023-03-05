@@ -32,21 +32,21 @@ Graph solve(const string& filePath) {
 }
 
 int main() {
-    string filePath = "../DIMAC_graphs/gen400-p0-9-55.txt";
-
-    Input input;
-    Graph g=(solve(filePath));
-
-    aco solver=aco(g);
-    Output o=solver.run(3001);
-
-
-
-//    string filePath = "test_data/e.txt";
-
-
-//    aco solver=aco(Input(filePath));
+//    string filePath = "../DIMAC_graphs/gen400-p0-9-75.txt";
+//
+//    Input input;
+//    Graph g=(solve(filePath));
+//
+//    aco solver=aco(g);
 //    Output o=solver.run(3001);
+
+
+
+    string filePath = "test_data/gen400-p0-9-75.txt";
+
+
+    aco solver=aco(Input(filePath));
+    Output o=solver.run(3001);
 //    dbg_out(o.features);
 //    dbg_out(Score::calculate(input,o));
 
