@@ -2,6 +2,7 @@
 #include "../../shared/utils.h"
 #include "SA_HyperParameters.h"
 #include <algorithm>
+#include <iterator>
 #include <vector>
 
 SimulatedAnealing::SimulatedAnealing(Graph &_g, init_solver_ptr init_solver,
@@ -87,9 +88,89 @@ vector<bool> RandomGreedy(const Graph &graph, const vector<bool> &cur_sol) {
   //    cout<<endl;
   return output;
 }
+void swap_some_feature(set<string> &included, set<string> &others) {
+  if (others.size() == 0) {
+    int s = rng() % included.size();
+    auto sit = included.begin();
+    advance(sit, s);
+    others.insert(*sit);
+    included.erase(sit);
+    return;
+  }
+  if (included.size() == 0) {
+
+    int t = rng() % others.size();
+    auto tit = others.begin();
+    advance(tit, t);
+    included.insert(*tit);
+    others.erase(tit);
+    return;
+  }
+  int s = rng() % included.size();
+  int t = rng() % others.size();
+  auto sit = included.begin();
+  auto tit = others.begin();
+  advance(sit, s);
+  advance(tit, t);
+  auto f1 = *sit, f2 = *tit;
+  included.erase(sit);
+  others.erase(tit);
+  included.insert(f2);
+  others.insert(f1);
+}
+
+vector<bool> func(const Graph &g, const vector<bool> &sol) {
+  set<string> all_features;
+  using client_id = int;
+
+  for (int i = 0; i < g.numberOfClients; i++) {
+    for (auto feature : g.input.featureLiked[i]) {
+      all_features.insert(feature);
+    }
+    for (auto feature : g.input.featureDisLiked[i]) {
+      all_features.insert(feature);
+    }
+  }
+  set<string> includedFeatures = all_features;
+  set<string> otherFeatures;
+  for (int i = 0; i < g.numberOfClients; i++) {
+    if (sol[i]) {
+      for (auto feature : g.input.featureDisLiked[i]) {
+        includedFeatures.erase(feature);
+        otherFeatures.insert(feature);
+      }
+    }
+  }
+  vector<bool> output(g.numberOfClients, false);
+  swap_some_feature(includedFeatures, otherFeatures);
+  for (client_id id = 0; id < g.numberOfClients; id++) {
+    bool valid = true;
+    for (auto feature : g.input.featureLiked[id]) {
+      if (includedFeatures.count(feature) == 0) {
+        valid = false;
+        break;
+      }
+    }
+    if (!valid)
+      continue;
+    for (auto feature : g.input.featureDisLiked[id]) {
+      if (includedFeatures.count(feature) > 0) {
+        valid = false;
+        break;
+      }
+    }
+    if (valid) {
+      output[id] = true;
+    }
+  }
+  return output;
+}
+
 vector<bool>
 SimulatedAnealing::generate_next_solution(const vector<bool> &cur_sol) {
-  if (get_probability() < 0.5)
+  if (get_probability() < 0.15)
+    return func(this->g, cur_sol);
+  if (get_probability() < 0.30)
     return RandomGreedy(this->g, cur_sol);
   int s = cur_sol.size();
   int v = rng() % s;

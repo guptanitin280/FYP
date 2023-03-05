@@ -36,7 +36,7 @@ Graph solve(const string& filePath) {
 int main() {
 
     string filePath = "../DIMAC_graphs/brock200-2.txt";
-    string file = "test_data/gen400-p0-9-95";
+    string file = "test_data/c-fat200-2.txt";
     Input input;
     //Graph g = (solve(filePath));
      Graph g(file);
@@ -46,29 +46,29 @@ int main() {
 
     SA_HyperParams param;
     param.cool_down_rate = 0.96;
-    param.cost_eval = {-1.0, 3.0};
+    param.cost_eval = {-1.0, 10.0};
     param.init_temp = 60;
-    param.no_change_threshhold_per_it = 350;
+    param.no_change_threshhold_per_it = 200;
     param.end_temp = 0.06;
-    param.num_iter = 500;
+    param.num_iter = 200;
 
- //    dbg_out(o.features);
-//    dbg_out(Score::calculate(input,o));
+    //    dbg_out(o.features);
+    //    dbg_out(Score::calculate(input,o));
 
-//    BruteForce bf(filePath);
-//    Output o = bf.solve();
-//    dbg_out(o.features);
-//
-//    Greedy gd(filePath);
-//    Output greedy_output = gd.solve();
-//    dbg_out(greedy_output.features);
-//
-//    dbg_out(Score::calculate(gd.input,greedy_output));
+    //    BruteForce bf(filePath);
+    //    Output o = bf.solve();
+    //    dbg_out(o.features);
+    //
+    //    Greedy gd(filePath);
+    //    Output greedy_output = gd.solve();
+    //    dbg_out(greedy_output.features);
+    //
+    //    dbg_out(Score::calculate(gd.input,greedy_output));
 
-//    Graph gp(filePath);
-//    cout<<gp.numberOfClients<<endl;
-//    dbg_out(gp.G);
-     SimulatedAnealing sm(g, Greedy, param);
+    //    Graph gp(filePath);
+    //    cout<<gp.numberOfClients<<endl;
+    //    dbg_out(gp.G);
+    SimulatedAnealing sm(g, Greedy, param);
     auto sol = sm.solve();
     int ans = 0;
     for (auto x : sol) {
@@ -78,4 +78,3 @@ int main() {
     cout << ans << endl;
     return 0;
 }
-
