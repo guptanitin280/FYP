@@ -9,6 +9,7 @@
 #include "../shared/Graph.h"
 #include "../shared/utils.h"
 
+//take the node with minimum degree and randomly from the nodes which
 vector<bool> RandomGreedy(Graph& input);
 
 #endif //FYP_RANDOMGREEDY_H

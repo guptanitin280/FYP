@@ -4,6 +4,9 @@
 
 #include "RandomGreedy.h"
 
+//take the element with the minimum degree
+//but among the multiple node take one randomly
+//return different clique every time
 
 vector<bool> RandomGreedy(Graph& input) {
     vector<bool> output;
