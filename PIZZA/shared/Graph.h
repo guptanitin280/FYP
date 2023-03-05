@@ -19,14 +19,15 @@ public:
     vector<vector<client_id>>G;
     vector<pair<client_id ,client_id >> edges;
 
+
     explicit Graph();
-    explicit Graph(Input _input,bool invert=false);
+    explicit Graph(const Input& _input,bool invert=false);
 
     void addEdge(client_id client1,client_id client2);
 
     bool areCompatible(client_id client1,client_id client2);
 
-    void fillAdjacencyList();
+    void fillAdjacencyList(bool invert);
 };
 
 #endif //FYP_GRAPH_H

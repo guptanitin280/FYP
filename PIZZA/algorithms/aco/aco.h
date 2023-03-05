@@ -6,6 +6,7 @@
 #define FYP_ACO_H
 
 #include <cstdint>
+#include<bitset>
 #include "../../shared/Graph.h"
 #include "../../shared/Output.h"
 
@@ -15,6 +16,7 @@ class aco{
     long double max_pheromone;
     long double alpha;
     long double evaporation;
+    long double initialCliqueCnt;
     uint32_t max_cycles;
     Graph graph;
     Input input;
@@ -28,6 +30,8 @@ public:
     Output run(int _max_cycles);
     void evaporatePheromone();
     void replenishPheromone(long double u,long double v,set<uint32_t>&finalClique);
+    void initialisePheromoneClassicWay();
+    void initialisePheromoneHeuristicWay();
 };
 
 #endif //FYP_ACO_H
