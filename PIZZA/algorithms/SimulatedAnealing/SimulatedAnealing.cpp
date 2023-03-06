@@ -169,10 +169,10 @@ vector<bool> random_feature_swap(const Graph &g, const vector<bool> &sol) {
 
 vector<bool>
 SimulatedAnealing::generate_next_solution(const vector<bool> &cur_sol) {
-  if (get_probability() < 0.33)
-    return random_feature_swap(this->g, cur_sol);
-  if (get_probability() < 0.66)
-    return RandomGreedy(this->g, cur_sol);
+  // if (get_probability() < 0.33)
+  //   return random_feature_swap(this->g, cur_sol);
+  // if (get_probability() < 0.66)
+  //   return RandomGreedy(this->g, cur_sol);
   int s = cur_sol.size();
   int v = rng() % s;
   vector<bool> pos_sol = cur_sol;

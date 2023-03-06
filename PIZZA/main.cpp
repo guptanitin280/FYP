@@ -1,11 +1,12 @@
-#include<bits/stdc++.h>
 #include "algorithms/BruteForce.h"
 #include "algorithms/SimulatedAnealing/SA_HyperParameters.h"
 #include "algorithms/SimulatedAnealing/SimulatedAnealing.h"
+#include "algorithms/aco/aco.h"
 #include "heuristics/Greedy.h"
+#include "heuristics/RandomInit.h"
 #include "shared/Graph.h"
 #include "shared/Score.h"
-#include "algorithms/aco/aco.h"
+#include <bits/stdc++.h>
 
 using namespace std;
 
@@ -68,7 +69,7 @@ int main() {
     //    Graph gp(filePath);
     //    cout<<gp.numberOfClients<<endl;
     //    dbg_out(gp.G);
-    SimulatedAnealing sm(g, Greedy, param);
+    SimulatedAnealing sm(g, RandomInit, param);
     auto sol = sm.solve();
     int ans = 0;
     for (auto x : sol) {
