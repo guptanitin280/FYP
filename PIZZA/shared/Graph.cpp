@@ -31,7 +31,6 @@ bool Graph::areCompatible(client_id client1, client_id client2) {
 }
 
 void Graph::fillAdjacencyList(bool invert) {
-    cout << "called" << endl;
     vector<vector<bool>> g;
     g.resize(numberOfClients, vector<bool>(numberOfClients, false));
     unordered_map<string, vector<client_id>> likes;

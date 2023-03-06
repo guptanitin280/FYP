@@ -89,7 +89,8 @@ vector<bool> RandomGreedy(const Graph &graph, const vector<bool> &cur_sol) {
   return output;
 }
 void swap_some_feature(set<string> &included, set<string> &others) {
-  if (others.size() == 0) {
+  auto p = get_probability();
+  if (others.size() == 0 || (p < 0.5 && included.size() != 0)) {
     int s = rng() % included.size();
     auto sit = included.begin();
     advance(sit, s);
@@ -97,8 +98,8 @@ void swap_some_feature(set<string> &included, set<string> &others) {
     included.erase(sit);
     return;
   }
-  if (included.size() == 0) {
-
+  // if (included.size() == 0) {
+  {
     int t = rng() % others.size();
     auto tit = others.begin();
     advance(tit, t);
@@ -119,7 +120,7 @@ void swap_some_feature(set<string> &included, set<string> &others) {
   others.insert(f1);
 }
 
-vector<bool> func(const Graph &g, const vector<bool> &sol) {
+vector<bool> random_feature_swap(const Graph &g, const vector<bool> &sol) {
   set<string> all_features;
   using client_id = int;
 
@@ -168,9 +169,9 @@ vector<bool> func(const Graph &g, const vector<bool> &sol) {
 
 vector<bool>
 SimulatedAnealing::generate_next_solution(const vector<bool> &cur_sol) {
-  if (get_probability() < 0.15)
-    return func(this->g, cur_sol);
-  if (get_probability() < 0.30)
+  if (get_probability() < 0.33)
+    return random_feature_swap(this->g, cur_sol);
+  if (get_probability() < 0.66)
     return RandomGreedy(this->g, cur_sol);
   int s = cur_sol.size();
   int v = rng() % s;

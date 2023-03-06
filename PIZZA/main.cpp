@@ -36,7 +36,7 @@ Graph solve(const string& filePath) {
 int main() {
 
     string filePath = "../DIMAC_graphs/brock200-2.txt";
-    string file = "test_data/c-fat200-2.txt";
+    string file = "test_data/p-hat300-3.txt";
     Input input;
     //Graph g = (solve(filePath));
      Graph g(file);
@@ -46,11 +46,11 @@ int main() {
 
     SA_HyperParams param;
     param.cool_down_rate = 0.96;
-    param.cost_eval = {-1.0, 10.0};
+    param.cost_eval = {-1.0, 3.0};
     param.init_temp = 60;
-    param.no_change_threshhold_per_it = 200;
+    param.no_change_threshhold_per_it = 300;
     param.end_temp = 0.06;
-    param.num_iter = 200;
+    param.num_iter = 300;
 
     //    dbg_out(o.features);
     //    dbg_out(Score::calculate(input,o));
