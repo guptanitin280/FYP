@@ -11,12 +11,14 @@
 #include "../../shared/Output.h"
 
 class aco{
+public:
     uint32_t num_ants;
     long double min_pheromone;
     long double max_pheromone;
     long double alpha;
     long double evaporation;
     long double initialCliqueCnt;
+    bool initializePheromoneClassicalWay;
     uint32_t max_cycles;
     Graph graph;
     Input input;

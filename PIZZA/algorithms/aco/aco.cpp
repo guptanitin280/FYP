@@ -20,17 +20,22 @@
 aco::aco(const Input& _input) :input(_input),graph(_input,true) {
     num_ants = 10;
     min_pheromone = 0.5;
-    max_pheromone = 20;
+    max_pheromone = 5;
     alpha = 2;
     max_cycles = 1000;
     evaporation = 0.995;
     initialCliqueCnt = 1000;
     pheromone.resize(graph.numberOfClients);
+    initializePheromoneClassicalWay = true;
 }
 
 Output aco::run(int _max_cycles) {
     max_cycles = _max_cycles;
-    aco::initialisePheromoneHeuristicWay();
+    if(initializePheromoneClassicalWay){
+        aco::initialisePheromoneClassicWay();
+    }else{
+        aco::initialisePheromoneHeuristicWay();
+    }
     set<uint32_t> finalClique;
     ofstream file;
     file.open("ip.txt");

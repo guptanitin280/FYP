@@ -18,7 +18,7 @@ void aco::initialisePheromoneHeuristicWay() {
     //initialize pheromone using heuristic way
     for (int i = 0; i < graph.numberOfClients; i++) {
         for (auto &d: graph.G[i]) {
-            pheromone[i][d] = min_pheromone;
+            pheromone[i][d] = (min_pheromone+max_pheromone)/2.0;
         }
     }
     for(int j=0;j<initialCliqueCnt;j++) {
@@ -27,8 +27,8 @@ void aco::initialisePheromoneHeuristicWay() {
         for(int i=0;i<graph.numberOfClients;i++){
             if(clique[i]) nodes.push_back(i);
         }
-        long double temp= nodes.size();
-        temp/=graph.numberOfClients;
+        long double temp= (nodes.size())*(nodes.size());
+        temp/=graph.edges.size();
         for(auto &c:nodes){
             for(auto d:nodes){
                 if(c!=d){
