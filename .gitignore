@@ -2,3 +2,5 @@
 */build/
 */.clang-format
 */compile_commands.json
+*/Xbuild
+*/.DS_Store
