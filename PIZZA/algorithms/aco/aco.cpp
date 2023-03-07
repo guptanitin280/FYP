@@ -17,14 +17,14 @@
 //    pheromone.resize(graph.numberOfClients);
 //}
 
-aco::aco(const Input& _input) :input(_input),graph(_input,true) {
+aco::aco(const Input& _input) :input(_input),graph(_input,true),graphInv(_input) {
     num_ants = 10;
     min_pheromone = 0.5;
-    max_pheromone = 5;
+    max_pheromone = 20;
     alpha = 2;
     max_cycles = 1000;
     evaporation = 0.995;
-    initialCliqueCnt = 1000;
+    initialCliqueCnt = 100;
     pheromone.resize(graph.numberOfClients);
     initializePheromoneClassicalWay = true;
 }

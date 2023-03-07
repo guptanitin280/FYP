@@ -20,6 +20,7 @@ public:
     long double initialCliqueCnt;
     bool initializePheromoneClassicalWay;
     uint32_t max_cycles;
+    Graph graphInv;
     Graph graph;
     Input input;
     vector<unordered_map<uint32_t ,long double>>pheromone;

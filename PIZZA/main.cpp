@@ -38,10 +38,10 @@ int main() {
 //
 //    aco solver=aco(g);
 //    Output o=solver.run(3001);
-    string filePath = "test_data/gen400-p0-9-75.txt";
+    string filePath = "test_data/C500-9.txt";
     aco solver = aco(Input(filePath));
-    solver.initializePheromoneClassicalWay=true;
+    solver.initializePheromoneClassicalWay=false;
     Output o = solver.run(3001);
 //    dbg_out(o.features);
-//    dbg_out(Score::calculate(input,o));
+    dbg_out(Score::calculate(Input(filePath),o));
 }
