@@ -3,6 +3,7 @@
 #define FYP_SIMULATED_ANEALING_H
 
 #include "../../shared/Graph.h"
+#include "../../shared/Output.h"
 #include "AcceptanceEvaluator.h"
 #include "SA_HyperParameters.h"
 #include <cstdint>
@@ -24,7 +25,7 @@ class SimulatedAnealing {
 public:
   SimulatedAnealing(Graph &_g, init_solver_ptr init_solver,
                     SA_HyperParams &params);
-  std::vector<bool> solve();
+  Output solve();
 };
 
 #endif
