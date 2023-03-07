@@ -17,8 +17,46 @@ SimulatedAnealing::SimulatedAnealing(Graph &_g, init_solver_ptr init_solver,
 double SimulatedAnealing::update_temp(double cur_temp) {
   return cool_down_rate * cur_temp;
 }
-
+int get_random_client1(unordered_set<int> &clients) {
+  int idx = rng() % clients.size();
+  auto it = clients.begin();
+  advance(it, idx);
+  return *it;
+}
 vector<bool> RandomGreedy(const Graph &graph, const vector<bool> &cur_sol) {
+  vector<bool> output = cur_sol;
+  vector<int> rand_vec;
+  for (int i = 0; i < graph.numberOfClients; i++) {
+    rand_vec.push_back(i);
+  }
+  shuffle(rand_vec.begin(), rand_vec.end(), rng);
+  for (int i = 0; i < rand_vec.size() / 2; i++) {
+    output[rand_vec[i]] = 0;
+  }
+  unordered_set<int> clients;
+  for (int id = 0; id < graph.numberOfClients; id++) {
+    clients.insert(id);
+  }
+  for (int id = 0; id < graph.numberOfClients; id++) {
+    if (output[id]) {
+      clients.erase(id);
+      for (int neighbour : graph.G[id]) {
+        clients.erase(neighbour);
+      }
+    }
+  }
+  while (clients.size() > 0) {
+    int id = get_random_client1(clients);
+    clients.erase(id);
+    for (int neighbour : graph.G[id]) {
+      clients.erase(neighbour);
+    }
+    output[id] = true;
+  }
+  return output;
+}
+
+vector<bool> RandomGreedy1(const Graph &graph, const vector<bool> &cur_sol) {
 
   vector<bool> output = cur_sol;
   vector<int> rand_vec;
@@ -171,8 +209,8 @@ vector<bool>
 SimulatedAnealing::generate_next_solution(const vector<bool> &cur_sol) {
   // if (get_probability() < 0.33)
   //   return random_feature_swap(this->g, cur_sol);
-  // if (get_probability() < 0.66)
-  //   return RandomGreedy(this->g, cur_sol);
+  if (get_probability() < 1)
+    return RandomGreedy(this->g, cur_sol);
   int s = cur_sol.size();
   int v = rng() % s;
   vector<bool> pos_sol = cur_sol;
@@ -180,7 +218,7 @@ SimulatedAnealing::generate_next_solution(const vector<bool> &cur_sol) {
   return pos_sol;
 }
 
-vector<bool> SimulatedAnealing::solve() {
+Output SimulatedAnealing::solve() {
   vector<bool> cur_sol = this->init_solver(g);
   SA_soln_status status;
   double cur_temp = init_temp;
@@ -215,5 +253,21 @@ vector<bool> SimulatedAnealing::solve() {
     cout << "At temp " << cur_temp << " val : " << p
          << " with valid : " << valid << endl;
   }
-  return cur_sol;
+  Output output;
+  for (int id = 0; id < this->g.numberOfClients; id++) {
+    for (auto feature : g.input.featureLiked[id]) {
+      output.features.insert(feature);
+    }
+    for (auto feature : g.input.featureDisLiked[id]) {
+      output.features.insert(feature);
+    }
+  }
+  for (int id = 0; id < this->g.numberOfClients; id++) {
+    if (cur_sol[id]) {
+      for (auto feature : g.input.featureDisLiked[id]) {
+        output.features.erase(feature);
+      }
+    }
+  }
+  return output;
 }

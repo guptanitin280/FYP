@@ -37,7 +37,7 @@ Graph solve(const string& filePath) {
 int main() {
 
     string filePath = "../DIMAC_graphs/brock200-2.txt";
-    string file = "test_data/p-hat300-3.txt";
+    string file = "test_data/brock400-2.txt";
     Input input;
     //Graph g = (solve(filePath));
      Graph g(file);
@@ -48,10 +48,10 @@ int main() {
     SA_HyperParams param;
     param.cool_down_rate = 0.96;
     param.cost_eval = {-1.0, 3.0};
-    param.init_temp = 60;
-    param.no_change_threshhold_per_it = 300;
+    param.init_temp = 300;
+    param.no_change_threshhold_per_it = 400;
     param.end_temp = 0.06;
-    param.num_iter = 300;
+    param.num_iter = 400;
 
     //    dbg_out(o.features);
     //    dbg_out(Score::calculate(input,o));
@@ -71,11 +71,6 @@ int main() {
     //    dbg_out(gp.G);
     SimulatedAnealing sm(g, RandomInit, param);
     auto sol = sm.solve();
-    int ans = 0;
-    for (auto x : sol) {
-      if (x)
-        ans++;
-    }
-    cout << ans << endl;
+    dbg_out(Score::calculate(g.input, sol));
     return 0;
 }
