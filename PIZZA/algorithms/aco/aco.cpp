@@ -6,41 +6,32 @@
 
 #include <utility>
 
-//aco::aco(const Graph& graph) : graph(graph), input() {
-//    num_ants = 10;
-//    min_pheromone = 0.5;
-//    max_pheromone = 20;
-//    alpha = 2;
-//    max_cycles = 1000;
-//    evaporation = 0.995;
-//    initialCliqueCnt = 5;
-//    pheromone.resize(graph.numberOfClients);
-//}
 
-aco::aco(const Input& _input) :input(_input),graph(_input,true),graphInv(_input) {
-    num_ants = 10;
-    min_pheromone = 0.5;
-    max_pheromone = 20;
+
+ofstream aco::ff;
+
+aco::aco(const Input& _input,const initializingAlgo &_algo=initializingAlgo::CLASSICAL_WAY) :input(_input),graph(_input,true),graphInv(_input) {
+    num_ants = 30;
+    min_pheromone = 0.01;
+    max_pheromone = 4;
     alpha = 2;
     max_cycles = 1000;
     evaporation = 0.995;
-    initialCliqueCnt = 100;
+    initialCliqueCnt = 5000;
+    algo=_algo;
     pheromone.resize(graph.numberOfClients);
-    initializePheromoneClassicalWay = true;
 }
 
 Output aco::run(int _max_cycles) {
     max_cycles = _max_cycles;
-    if(initializePheromoneClassicalWay){
+    if(algo==initializingAlgo::CLASSICAL_WAY){
         aco::initialisePheromoneClassicWay();
-    }else{
+    }else {
         aco::initialisePheromoneHeuristicWay();
     }
     set<uint32_t> finalClique;
-    ofstream file;
-    file.open("ip.txt");
     for (int j = 0; j < max_cycles; j++) {
-        file<<j+1<<" ";
+        ff<<j+1<<" ";
         cout<<j+1<<" ";
         //make a clique for each ants
         auto max_clique = findMaxClique();
@@ -51,9 +42,8 @@ Output aco::run(int _max_cycles) {
             finalClique = max_clique;
         }
         replenishPheromone(u, v, finalClique);
-        file<<finalClique.size()<<endl;
+        ff<<finalClique.size()<<endl;
     }
-    file.close();
 
     for (auto &c: finalClique) {
         for (auto &d: input.featureLiked[c]) {

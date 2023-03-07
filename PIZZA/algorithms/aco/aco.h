@@ -10,6 +10,7 @@
 #include "../../shared/Graph.h"
 #include "../../shared/Output.h"
 
+enum initializingAlgo { CLASSICAL_WAY, RANDOM_GREEDY_WAY, RANDOM_INIT_WAY};
 class aco{
 public:
     uint32_t num_ants;
@@ -18,17 +19,18 @@ public:
     long double alpha;
     long double evaporation;
     long double initialCliqueCnt;
-    bool initializePheromoneClassicalWay;
     uint32_t max_cycles;
+    initializingAlgo algo;
     Graph graphInv;
     Graph graph;
     Input input;
     vector<unordered_map<uint32_t ,long double>>pheromone;
     Output output;
+    static ofstream ff;
 
 public:
-    aco(const Input& _input);
-    aco(const Graph& graph);
+    aco(const Input& _input,const initializingAlgo& algo);
+//    aco(const Graph& graph);
     set<uint32_t> findMaxClique();
     Output run(int _max_cycles);
     void evaporatePheromone();

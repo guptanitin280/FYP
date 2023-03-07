@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.21)
 project(FYP)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_CXX_STANDARD 20)
-
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,--stack,1000000000")
 
 add_library(genetic_lib genetic_algorithm/include/GeneticConstants.h)
 target_sources(genetic_lib PUBLIC genetic_algorithm/heuristics/fitness_functions/NumberOfOnes.cpp genetic_algorithm/heuristics/fitness_functions/NumberOfOnes.h genetic_algorithm/include/Breeder.h genetic_algorithm/include/Evolver.h genetic_algorithm/include/GeneticSolver.h genetic_algorithm/include/Genome.h genetic_algorithm/include/Picker.h genetic_algorithm/src/GeneticSolver.cpp genetic_algorithm/src/Genome.cpp

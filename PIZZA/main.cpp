@@ -30,6 +30,29 @@ Graph solve(const string& filePath) {
     return graph;
 }
 
+const int itr=3000;
+
+void ClassicalWay(string &filePath){
+    aco solver = aco(Input(filePath),initializingAlgo::CLASSICAL_WAY);
+    Output o = solver.run(itr);
+//    dbg_out(o.features);
+    dbg_out(Score::calculate(Input(filePath),o));
+}
+
+void HeuristicWayRandomGreedy(string &filePath){
+    aco solver = aco(Input(filePath),initializingAlgo::RANDOM_GREEDY_WAY);
+    Output o = solver.run(itr);
+//    dbg_out(o.features);
+    dbg_out(Score::calculate(Input(filePath),o));
+}
+
+void HeuristicWayRandomInit(string &filePath){
+    aco solver = aco(Input(filePath),initializingAlgo::RANDOM_INIT_WAY);
+    Output o = solver.run(itr);
+//    dbg_out(o.features);
+    dbg_out(Score::calculate(Input(filePath),o));
+}
+
 int main() {
 //    string filePath = "../DIMAC_graphs/gen400-p0-9-75.txt";
 //
@@ -38,10 +61,11 @@ int main() {
 //
 //    aco solver=aco(g);
 //    Output o=solver.run(3001);
-    string filePath = "test_data/C500-9.txt";
-    aco solver = aco(Input(filePath));
-    solver.initializePheromoneClassicalWay=false;
-    Output o = solver.run(3001);
-//    dbg_out(o.features);
-    dbg_out(Score::calculate(Input(filePath),o));
+
+    string filePath = "test_data/C250-9.txt";
+    (aco::ff).open("ip.txt");
+    ClassicalWay(filePath);
+//    HeuristicWayRandomGreedy(filePath);
+    HeuristicWayRandomInit(filePath);
+    (aco::ff).close();
 }
