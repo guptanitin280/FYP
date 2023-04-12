@@ -30,4 +30,5 @@ Input::Input(string _filePath) {
         featureLiked.push_back(liked);
         featureDisLiked.push_back(disliked);
     }
+    file.close();
 }
