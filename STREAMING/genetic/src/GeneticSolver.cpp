@@ -99,6 +99,23 @@ bool GeneticSolver::insertRandom() {
 
 void greedy_local_search(std::vector<std::vector<bool>>& bv, const Input& input) {
     //!!IMPLEMENT
+     int ncaches=input.cacheServer,nVideos=input.videos;
 
+     for(int i=1;i<=ncaches;i++){
+         std::vector<int> videosStored;
+         int spaceUsed=0;
+         for(int j=0;j<nVideos;j++){
+             if(bv[i][j]){
+                 spaceUsed+=input.videoSizes[j];
+                 videosStored.push_back(j);
+             }
+         }
+         shuffle(videosStored.begin(),videosStored.end(), rng);
+         while(spaceUsed> input.cacheServerCapacity){
+             bv[i][videosStored.back()]=false;
+             spaceUsed-=input.videoSizes[videosStored.back()];
+             videosStored.pop_back();
+         }
+     }
 }
 

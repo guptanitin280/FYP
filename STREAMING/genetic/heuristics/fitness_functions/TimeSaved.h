@@ -6,9 +6,9 @@
 #define STREAMING_TIMESAVED_H
 
 
-class TimeSaved {
+#include <bits/stdc++.h>
+#include "../../include/Genome.h"
 
-};
-
+uint32_t TimeSaved(genetic::Genome &gene);
 
 #endif //STREAMING_TIMESAVED_H

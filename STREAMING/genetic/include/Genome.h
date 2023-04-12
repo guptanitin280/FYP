@@ -27,6 +27,8 @@ namespace genetic{
 
         void modify_gene(std::vector<std::vector<bool>> new_gene);
 
+        bool isValid();
+
         uint32_t calc_fitness();
 
     };
