@@ -9,7 +9,7 @@ int get_random_client(unordered_set<int> &clients) {
   return *it;
 }
 
-vector<bool> RandomInit(const Graph &input) {
+vector<bool> RandomInit(Graph &input) {
   unordered_set<int> clients;
   for (int id = 0; id < input.numberOfClients; id++) {
     clients.insert(id);
