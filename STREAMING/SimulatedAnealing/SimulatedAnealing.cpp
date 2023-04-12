@@ -20,7 +20,7 @@ double SimulatedAnealing::update_temp(double cur_temp) {
   return cool_down_rate * cur_temp;
 }
 SAState SimulatedAnealing::generate_next_solution(const SAState &cur_sol) {
-  // TODO
+  return cur_sol.getNeighbouringState();
 }
 Output SimulatedAnealing::solve() {
   vector<vector<bool>> cur_sol_mat = this->init_solver(input);

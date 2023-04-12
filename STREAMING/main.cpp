@@ -1,5 +1,9 @@
-#include <bits/stdc++.h>
+#include "SimulatedAnealing/SA_HyperParameters.h"
+#include "SimulatedAnealing/SimulatedAnealing.h"
+#include "heuristics/RandomGreedy.h"
 #include "shared/Input.h"
+#include "shared/Score.h"
+#include <bits/stdc++.h>
 
 #define int long long
 
@@ -18,15 +22,22 @@ template<typename Head, typename... Tail> void dbg_out(Head H, Tail... T) { cerr
 #endif
 
 void solve() {
-    Input I("test_data/me_at_the_zoo.in");
-    cout<<I.videos<<endl;
-    cout<<I.endpoints<<endl;
-    cout<<I.latency<<endl;
-    cout<<I.requestsDescription<<endl;
+  Input I("test_data/me_at_the_zoo.in");
+
+  SA_HyperParams param;
+  param.cool_down_rate = 0.96;
+  param.cost_eval = {1.0, 1.0, 2.0};
+  param.init_temp = 60;
+  param.no_change_threshhold_per_it = 1000;
+  param.end_temp = 0.06;
+  param.num_iter = 1000;
+
+  SimulatedAnealing sm(I, RandomGreedy, param);
+  auto sol = sm.solve();
+  dbg_out(Score::calculate(I, sol));
 }
 
 int32_t main() {
     nitin;
-
     solve();
 }

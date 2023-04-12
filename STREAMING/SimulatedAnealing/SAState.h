@@ -9,10 +9,12 @@ public:
   SAState(const Input &input, std::vector<vector<bool>> &videoServed);
   SAState(const Input &input, std::vector<vector<bool>> &videoServed,
           double maxTotalLatency);
-  void operator=(const SAState &operState);
+  SAState(const SAState &otherState);
+  void operator=(const SAState &otherState);
   bool isValid() const;
   double getAvgLatencyContri() const;
   pair<double, double> cacheServerUtilisation() const;
+  SAState getNeighbouringState() const;
 };
 
 #endif
