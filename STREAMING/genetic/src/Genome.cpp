@@ -6,28 +6,28 @@
 
 using namespace genetic;
 
-Genome::Genome(uint32_t _n_caches,uint32_t _n_videos):n_caches(_n_caches),n_videos(_n_videos){
+Genome::Genome(uint32_t _n_caches,uint32_t _n_videos,Input& _g):n_caches(_n_caches),n_videos(_n_videos),g(_g){
 
     bits.assign(n_caches, std::vector<bool>(n_videos, false));
     func_ptr= nullptr;
     fitness = 0;
 }
 
-Genome::Genome(uint32_t _n_caches,uint32_t _n_videos,std::vector<std::vector<bool>> _bits):n_caches(_n_caches),n_videos(_n_videos){
+Genome::Genome(uint32_t _n_caches,uint32_t _n_videos,Input& _g,std::vector<std::vector<bool>> _bits):n_caches(_n_caches),n_videos(_n_videos),g(_g){
     bits=_bits;
     func_ptr= nullptr;
     fitness = calc_fitness();
 }
 
 
-Genome::Genome(uint32_t _n_caches,uint32_t _n_videos,uint32_t (* _f)(Genome&)):n_caches(_n_caches),n_videos(_n_videos){
+Genome::Genome(uint32_t _n_caches,uint32_t _n_videos,Input& _g,uint32_t (* _f)(Genome&)):n_caches(_n_caches),n_videos(_n_videos),g(_g){
 
     bits.assign(n_caches, std::vector<bool>(n_videos, false));
     func_ptr= _f;
     fitness = 0;
 }
 
-Genome::Genome(uint32_t _n_caches,uint32_t _n_videos,std::vector<std::vector<bool>> _bits,uint32_t (* _f)(Genome&)):n_caches(_n_caches),n_videos(_n_videos){
+Genome::Genome(uint32_t _n_caches,uint32_t _n_videos,Input& _g,std::vector<std::vector<bool>> _bits,uint32_t (* _f)(Genome&)):n_caches(_n_caches),n_videos(_n_videos),g(_g){
 
     bits=_bits;
     func_ptr= _f;

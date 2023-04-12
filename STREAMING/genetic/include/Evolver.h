@@ -25,6 +25,12 @@ namespace genetic{
         SimpleEvolver(double _rate):changes_per_genome(_rate){};
         virtual void evolve(std::vector<std::vector<bool>>& gene) override{
             //!!IMPLEMENT
+            double flip_probability= (changes_per_genome)/(gene[0]).size();
+            for(uint32_t i=0;i<gene.size();i++){
+                for(uint32_t j=0;j<gene[0].size();j++){
+                    if(get_probability()< flip_probability)gene[i][j]=(!gene[i][j]);
+                }
+            }
         };
 
         void update_rate(uint32_t iter) override{

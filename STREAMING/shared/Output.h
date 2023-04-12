@@ -1,12 +1,13 @@
-#ifndef FYP_OUTPUT_H
-#define FYP_OUTPUT_H
+#ifndef STREAMING_OUTPUT_H
+#define STREAMING_OUTPUT_H
 #include <bits/stdc++.h>
 using namespace std;
 
 class Output {
 public:
   int numServers;
-  map<int, vector<int>> videosServed;
+  int numVideos;
+  vector<vector<bool>> videosServed;
 };
 
-#endif // FYP_OUTPUT_H
+#endif // STREAMING_OUTPUT_H
