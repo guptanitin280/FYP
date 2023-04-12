@@ -10,6 +10,6 @@
 #include "../shared/utils.h"
 
 //take the node with minimum degree and randomly from the nodes which
-std::vector<std::vector<bool>> RandomGreedy(Input& input);
+std::vector<std::vector<bool>> RandomGreedy(const Input &input);
 
 #endif //STREAMING_RANDOMGREEDY_H
