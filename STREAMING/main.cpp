@@ -1,7 +1,9 @@
 #include <bits/stdc++.h>
 #include "shared/Input.h"
+#include "aco/aco.h"
 
 #define int long long
+
 
 #define nitin          ios_base::sync_with_stdio(false); cin.tie(nullptr)
 using namespace std;
@@ -19,10 +21,9 @@ template<typename Head, typename... Tail> void dbg_out(Head H, Tail... T) { cerr
 
 void solve() {
     Input I("test_data/me_at_the_zoo.in");
-    cout<<I.videos<<endl;
-    cout<<I.endpoints<<endl;
-    cout<<I.latency<<endl;
-    cout<<I.requestsDescription<<endl;
+    aco a(I);
+    Output o=a.run(20);
+    cout<<
 }
 
 int32_t main() {
