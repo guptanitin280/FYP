@@ -3,7 +3,7 @@
 //
 
 #include "RandomGreedy.h"
-std::vector<std::vector<bool>> RandomGreedy(const Input &input) {
+std::vector<std::vector<bool>> RandomGreedy(Input &input) {
   int nCaches = input.cacheServer, nVideos = input.videos,
       nRequests = input.requests;
   std::vector<std::vector<bool>> bits(nCaches + 1,

@@ -15,7 +15,7 @@ uint32_t TimeSaved(genetic::Genome &gene){
 
         int minLatency=input.latency[endPoint][0];// time from dataserver
         for(int cache=1;cache<=input.cacheServer;cache++){
-            if(output[cache][video]){
+            if(output[cache][video] && input.latency[endPoint][cache]!=-1){
                 minLatency=min(minLatency,input.latency[endPoint][cache+1]);
             }
         }

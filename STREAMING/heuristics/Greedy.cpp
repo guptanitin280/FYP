@@ -3,7 +3,7 @@
 //
 
 #include "Greedy.h"
-std::vector<std::vector<bool>> Greedy(const Input &input) {
+std::vector<std::vector<bool>> Greedy(Input &input) {
   int nCaches = input.cacheServer, nVideos = input.videos,
       nRequests = input.requests;
   std::vector<std::vector<bool>> bits(nCaches + 1,

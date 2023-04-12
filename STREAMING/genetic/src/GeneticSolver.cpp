@@ -35,6 +35,7 @@ Genome GeneticSolver::iterate(uint32_t generation_number) {
     for (int i = 0; i < 10; ++i) {
         auto idx = rand(0,((int)population.size()) -1);
         auto fitness = population[idx].calc_fitness();
+//        cout<<"firness"<<idx<<" "<<fitness;
         if (fitness <= min_fitness) {
             min_fitness = fitness;
             worst = idx;

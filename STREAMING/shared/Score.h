@@ -9,7 +9,7 @@
 #include "Output.h"
 class Score {
 public:
-    static int calculate(const Input &input, const Output &output);
+    static long long calculate(const Input &input, const Output &output);
 };
 
 #endif //STREAMING_SCORE_H
