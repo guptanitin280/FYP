@@ -6,7 +6,8 @@ using namespace std;
 class Output {
 public:
   int numServers;
-  map<int, vector<int>> videosServed;
+  int numVideos;
+  vector<vector<bool>> videosServed;
 };
 
 #endif // FYP_OUTPUT_H
