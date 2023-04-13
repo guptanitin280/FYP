@@ -7,30 +7,37 @@
 #include "../shared/Input.h"
 #include "../shared/Output.h"
 #include "Graph.h"
+enum initializingAlgo { CLASSICAL_WAY, RANDOM_GREEDY_WAY};
 
 class aco {
 public:
     Input input;
     Output output;
-    int numberOfAnts = 10;
-    int max_cycle = 100;
+    long long numberOfAnts = 20;
+    long long max_cycle = 100;
     long double evaporation = 0.995;
     long double minPheromone = 0.01;
     long double maxPheromone = 4;
     Graph g;
+    static ofstream ff;
+    initializingAlgo algo;
+    long long initialSol=100;
 
-    aco(Input _input);
+    aco(Input _input,initializingAlgo _algo);
 
-    pair<vector<int>,int> findPath();
+    pair<vector<long long>,long long> findPath();
 
-    Output run(int _max_cycles);
+    Output run(long long _max_cycles);
 
     void evaporatePheromone();
 
-    void replenishPheromone(long double u, long double v, vector<int> &whichOne);
+    void replenishPheromone(long double u, long double v, vector<long long> &whichOne);
 
     void initialisePheromone();
 
+    bool isValid();
+
+    long long calculateScore(vector<long long>&path);
 };
 
 

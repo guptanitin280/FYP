@@ -5,33 +5,39 @@
 #include "aco.h"
 #include "../shared/utils.h"
 
-pair<vector<int>,int> aco::findPath() {
 
-    vector<int> minLatencypath;
-    int saved = -1;
+
+
+pair<vector<long long>,long long> aco::findPath() {
+
+    vector<long long> minLatencypath;
+    long long maxScore = -1;
     bool vis[g.requests];
-    int rem[g.server];
-    rem[0] = LLONG_MAX;
-    for (int j = 1; j < g.server; j++) {
-        rem[j] = input.cacheServerCapacity;
-    }
+    long long rem[g.server];
 
-    for (int i = 0; i < numberOfAnts; i++) {
 
-        vector<int> path;
+    for (long long i = 0; i < numberOfAnts; i++) {
+
+        vector<long long> path;
         path.push_back(0);
         memset(vis, false, sizeof vis);
-        int currentSaved = 0;
-        int times = g.requests;
+
+        rem[0] = LLONG_MAX;
+        for (long long j = 1; j < g.server; j++) {
+            rem[j] = input.cacheServerCapacity;
+        }
+
+
+        long long times = g.requests;
         while (times--) {
 
             vector<long double> prob;
-            vector<int> whichOne;
+            vector<long long> whichOne;
 
 
-            int whichServer = path.back();
+            long long whichServer = path.back();
             long double tot = 0;
-            for (int t = 0; t < g.requests; t++) {
+            for (long long t = 0; t < g.requests; t++) {
                 if (!vis[t]) {
                     prob.push_back(g.pheromoneDown[whichServer][t]);
                     tot += prob.back();
@@ -39,13 +45,14 @@ pair<vector<int>,int> aco::findPath() {
                 }
             }
             for (auto &c: prob) c /= tot;
-            int whichRequest = whichOne[rand(prob)];
+            long long whichRequest = whichOne[rand(prob)];
+            vis[whichRequest]=true;
 
             path.push_back(whichRequest);
 
             prob.clear();
             whichOne.clear();
-            vector<int> lat;
+            vector<long long> lat;
             tot = 0;
 
             for (auto &c: g.edgesUp[whichRequest]) {
@@ -58,17 +65,19 @@ pair<vector<int>,int> aco::findPath() {
             }
 
             for (auto &c: prob) c /= tot;
-            int id = rand(prob);
+            long long id = rand(prob);
+
             whichServer = whichOne[id];
-            currentSaved += lat[id];
+            rem[whichServer] -= g.videoSize[whichRequest];
             path.push_back(whichServer);
         }
 
-        if(currentSaved>saved){
-            saved=currentSaved;
+        long long currentScore= calculateScore(path);
+        if(currentScore>maxScore){
+            maxScore=currentScore;
             minLatencypath=path;
         }
     }
 
-    return {minLatencypath,saved};
+    return {minLatencypath,maxScore};
 }

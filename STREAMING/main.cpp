@@ -1,6 +1,8 @@
 #include <bits/stdc++.h>
 #include "shared/Input.h"
 #include "aco/aco.h"
+#include "shared/Output.h"
+#include "shared/Score.h"
 
 #define int long long
 
@@ -21,9 +23,21 @@ template<typename Head, typename... Tail> void dbg_out(Head H, Tail... T) { cerr
 
 void solve() {
     Input I("test_data/me_at_the_zoo.in");
-    aco a(I);
-    Output o=a.run(20);
-    cout<<
+    aco::ff.open("ip.txt");
+    {
+        aco a(I,initializingAlgo::CLASSICAL_WAY);
+        Output o=a.run(200);
+        cout<<Score::calculate(I,o)<<endl;
+        cout<<a.isValid()<<endl;
+    }
+
+    {
+        aco b(I,initializingAlgo::RANDOM_GREEDY_WAY);
+        Output p=b.run(200);
+        cout<<Score::calculate(I,p)<<endl;
+        cout<<b.isValid()<<endl;
+    }
+    aco::ff.close();
 }
 
 int32_t main() {

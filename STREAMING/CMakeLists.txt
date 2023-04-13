@@ -20,6 +20,6 @@ add_library(heuristics_lib heuristics/RandomGreedy.cpp heuristics/RandomGreedy.h
 target_sources(heuristics_lib PUBLIC )
 
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS}")
-target_link_libraries(STREAMING genetic_lib simulated_anealing_lib heuristics_lib)
 add_executable(STREAMING main.cpp shared/Score.cpp shared/Score.h shared/utils.cpp shared/utils.h shared/Input.cpp shared/Input.h aco/aco.cpp aco/aco.h aco/evaporatePheromone.cpp aco/replenishPheromone.cpp aco/runAnts.cpp aco/initializePheromone.cpp aco/Graph.cpp aco/Graph.h)
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,--stack,1000000000")
+target_link_libraries(STREAMING genetic_lib simulated_anealing_lib heuristics_lib)

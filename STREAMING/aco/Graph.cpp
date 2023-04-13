@@ -12,13 +12,13 @@ Graph::Graph(Input &input) {
     edgesUp.resize(requests);
     videoSize.resize(requests);
     for (int i = 0; i < requests; i++) {
-        int endPoint = input.requestsDescription[i][1];
         int video = input.requestsDescription[i][0];
+        int endPoint = input.requestsDescription[i][1];
         int cnt = input.requestsDescription[i][2];
         videoSize[i] = input.videoSizes[video];
         for (int j = 0; j < server; j++) {
             if (input.latency[endPoint][j] != -1) {
-                edgesUp[i].push_back({j, (input.latency[endPoint][j] - input.latency[endPoint][j]) * cnt});
+                edgesUp[i].push_back({j, (input.latency[endPoint][0] - input.latency[endPoint][j]) * cnt});
             }
         }
     }

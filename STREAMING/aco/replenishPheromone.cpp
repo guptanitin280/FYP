@@ -4,7 +4,7 @@
 
 #include "aco.h"
 
-void aco::replenishPheromone(long double u,long double v,vector<int>&path) {
+void aco::replenishPheromone(long double u,long double v,vector<long long>&path) {
 
     for (int i = 2; i < path.size(); i += 2) {
         g.pheromoneUp[path[i - 1]][path[i]] += 1 / (1 + u + v);
