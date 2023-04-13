@@ -16,7 +16,7 @@ long long Score::calculate(const Input &input, const Output &output) {
         int minLatency=input.latency[endPoint][0];// time from dataserver
         for(int cache=1;cache<=input.cacheServer;cache++){
             if(output.videosServed[cache][video] && input.latency[endPoint][cache]!=-1){
-                minLatency=min(minLatency,input.latency[endPoint][cache+1]);
+                minLatency=min(minLatency,input.latency[endPoint][cache]);
             }
         }
         val+=(numRequest*(input.latency[endPoint][0] - minLatency));

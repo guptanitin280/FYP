@@ -44,6 +44,7 @@ int main() {
     output.videosServed=result.bits;
     cout<<"final ans"<<result.bits<<endl;
     cout<<"score"<<Score::calculate(gp,output);
+    cout<<"theekhai"<<result.isValid()<<endl;
 //    cout<<gp.numberOfClients<<endl;
 //    dbg_out(gp.G);
 
