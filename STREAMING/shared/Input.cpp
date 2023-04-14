@@ -17,7 +17,6 @@ Input::Input(std::string _filePath) {
     file >> requests;
     file >> cacheServer;
     file >> cacheServerCapacity;
-    requests=min(requests,(int)1000);
     videoSizes.resize(videos);
     for (int i = 0; i < videos; i++) {
         file >> videoSizes[i];

@@ -21,9 +21,9 @@ template<typename Head, typename... Tail> void dbg_out(Head H, Tail... T) { cerr
 #define dbg(...)
 #endif
 
-void solve() {
-    Input I("test_data/me_at_the_zoo.in");
-    aco::ff.open("ip.txt");
+void solve(string fileName) {
+    Input I("test_data/"+fileName+".txt");
+    aco::ff.open(fileName+".txt");
     {
         aco a(I,initializingAlgo::CLASSICAL_WAY);
         Output o=a.run(200);
@@ -43,5 +43,7 @@ void solve() {
 int32_t main() {
     nitin;
 
-    solve();
+    for (char c = 'A'; c <= 'I'; c++) {
+        solve(string(1, c));
+    }
 }
