@@ -12,6 +12,7 @@ public:
   SAState(const SAState &otherState);
   void operator=(const SAState &otherState);
   bool isValid() const;
+  int score() const;
   double getAvgLatencyContri() const;
   pair<double, double> cacheServerUtilisation() const;
   SAState getNeighbouringState() const;
