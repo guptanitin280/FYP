@@ -32,7 +32,7 @@ plt.plot(x_values, y_values,'r',label="Non-Heuristic")
 plt.plot(x_values3,y_values3,'g',label="Heuristic")
 plt.title('ACO')
 plt.xlabel('Iteration')
-plt.ylabel('Score')
+plt.ylabel('Latency Saved')
 # display plot
 plt.show()
 
