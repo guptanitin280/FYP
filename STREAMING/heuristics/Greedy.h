@@ -12,4 +12,5 @@
 //take the node with minimum degree and randomly from the nodes which
 std::vector<std::vector<bool>> Greedy(Input &input);
 
+std::vector<std::vector<bool>> GreedyConst(const Input &input);
 #endif //STREAMING_GREEDY_H

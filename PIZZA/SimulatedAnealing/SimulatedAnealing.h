@@ -2,9 +2,10 @@
 #ifndef FYP_SIMULATED_ANEALING_H
 #define FYP_SIMULATED_ANEALING_H
 
-#include "../../shared/Graph.h"
-#include "../../shared/Output.h"
+#include "../shared/Graph.h"
+#include "../shared/Output.h"
 #include "AcceptanceEvaluator.h"
+#include "SAState.h"
 #include "SA_HyperParameters.h"
 #include <cstdint>
 #include <vector>
@@ -16,16 +17,19 @@ class SimulatedAnealing {
   double end_temp;
   double cool_down_rate;
   int32_t num_iter;
+  ofstream fout;
+  bool enableHeuristic;
   Graph g;
   init_solver_ptr init_solver;
   double update_temp(double cur_temp);
-  vector<bool> generate_next_solution(const vector<bool> &cur_sol);
+  SAState generate_next_solution(const SAState &cur_sol);
   AcceptanceEvaluator acceptable;
 
 public:
   SimulatedAnealing(Graph &_g, init_solver_ptr init_solver,
-                    SA_HyperParams &params);
+                    SA_HyperParams &params, bool enableHeuristic);
   Output solve();
+  ~SimulatedAnealing();
 };
 
 #endif

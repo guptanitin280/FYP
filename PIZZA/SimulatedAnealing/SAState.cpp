@@ -1,44 +1,80 @@
-#include "SimulatedAnealing.h"
-#include "../../shared/utils.h"
-#include "SA_HyperParameters.h"
-#include <algorithm>
-#include <iterator>
-#include <vector>
+#include "SAState.h"
+#include "../shared/Output.h"
+#include "../shared/Score.h"
+#include "../shared/utils.h"
+SAState::SAState(const Graph &input, const vector<bool> &clientSatisfied,
+                 bool enableHeuristic)
+    : graph(input), clientsSatistied(clientSatisfied),
+      enableHeuristic(enableHeuristic) {}
 
-SimulatedAnealing::SimulatedAnealing(Graph &_g, init_solver_ptr init_solver,
-                                     SA_HyperParams &params)
-    : g(_g), acceptable(params, g), init_solver(init_solver) {
-  init_temp = params.init_temp;
-  end_temp = params.end_temp;
-  cool_down_rate = params.cool_down_rate;
-  num_iter = params.num_iter;
-};
+SAState::SAState(const SAState &otherState)
+    : graph(otherState.graph), clientsSatistied(otherState.clientsSatistied),
+      enableHeuristic(otherState.enableHeuristic) {}
 
-double SimulatedAnealing::update_temp(double cur_temp) {
-  return cool_down_rate * cur_temp;
+bool SAState::isValid() const {
+  bool valid = true;
+  for (auto e : this->graph.edges) {
+    if (this->clientsSatistied[e.first] && this->clientsSatistied[e.second]) {
+      valid = false;
+    }
+  }
+  return valid;
 }
+
+int SAState::score() const {
+  int numClients = 0;
+  for (auto isClientSatisfied : clientsSatistied) {
+    numClients += isClientSatisfied;
+  }
+  return numClients;
+}
+
+int SAState::getNumClients() const {
+  int numClients = 0;
+  for (auto isClientSatisfied : clientsSatistied) {
+    numClients += isClientSatisfied;
+  }
+  return numClients;
+}
+int SAState::getInvalidClientsPenalty() const {
+  int invalidEdges = 0;
+  int n = this->graph.numberOfClients;
+  for (int node = 0; node < n; node++) {
+    for (int neighbour : graph.G[node]) {
+      if (this->clientsSatistied[node] && this->clientsSatistied[neighbour])
+        invalidEdges++;
+    }
+  }
+  return invalidEdges / 2;
+}
+void SAState::operator=(const SAState &otherState) {
+  this->clientsSatistied = otherState.clientsSatistied;
+}
+
 int get_random_client1(unordered_set<int> &clients) {
   int idx = rng() % clients.size();
   auto it = clients.begin();
   advance(it, idx);
   return *it;
 }
-vector<bool> RandomGreedy(const Graph &graph, const vector<bool> &cur_sol) {
-  vector<bool> output = cur_sol;
+
+SAState nextStateWithRandomHeuristic(const SAState &cur_sol) {
+  SAState output(cur_sol);
+  const Graph &graph = cur_sol.graph;
   vector<int> rand_vec;
   for (int i = 0; i < graph.numberOfClients; i++) {
     rand_vec.push_back(i);
   }
   shuffle(rand_vec.begin(), rand_vec.end(), rng);
   for (int i = 0; i < rand_vec.size() / 2; i++) {
-    output[rand_vec[i]] = 0;
+    output.clientsSatistied[rand_vec[i]] = 0;
   }
   unordered_set<int> clients;
   for (int id = 0; id < graph.numberOfClients; id++) {
     clients.insert(id);
   }
   for (int id = 0; id < graph.numberOfClients; id++) {
-    if (output[id]) {
+    if (output.clientsSatistied[id]) {
       clients.erase(id);
       for (int neighbour : graph.G[id]) {
         clients.erase(neighbour);
@@ -51,21 +87,21 @@ vector<bool> RandomGreedy(const Graph &graph, const vector<bool> &cur_sol) {
     for (int neighbour : graph.G[id]) {
       clients.erase(neighbour);
     }
-    output[id] = true;
+    output.clientsSatistied[id] = true;
   }
   return output;
 }
 
-vector<bool> RandomGreedy1(const Graph &graph, const vector<bool> &cur_sol) {
-
-  vector<bool> output = cur_sol;
+SAState nextStateWithGreedyHeuristic(const SAState &cur_sol) {
+  const Graph &graph = cur_sol.graph;
+  SAState output(cur_sol);
   vector<int> rand_vec;
   for (int i = 0; i < graph.numberOfClients; i++) {
     rand_vec.push_back(i);
   }
   shuffle(rand_vec.begin(), rand_vec.end(), rng);
   for (int i = 0; i < rand_vec.size() / 2; i++) {
-    output[rand_vec[i]] = 0;
+    output.clientsSatistied[rand_vec[i]] = 0;
   }
   const int LIM = 1e9;
   using client_id = int;
@@ -81,7 +117,7 @@ vector<bool> RandomGreedy1(const Graph &graph, const vector<bool> &cur_sol) {
     minSet.insert({degrees[id], randomValueAssigned[id], id});
   }
   for (client_id id = 0; id < numberOfClients; id++) {
-    if (output[id]) {
+    if (output.clientsSatistied[id]) {
       done[id] = 1;
       minSet.erase({degrees[id], randomValueAssigned[id], (int)id});
       for (auto neighbour : graph.G[id]) {
@@ -95,7 +131,7 @@ vector<bool> RandomGreedy1(const Graph &graph, const vector<bool> &cur_sol) {
   while (!minSet.empty()) {
     auto it = minSet.begin();
     client_id minDegreeNode = (*it)[2];
-    output[minDegreeNode] = true;
+    output.clientsSatistied[minDegreeNode] = true;
     map<client_id, uint32_t> toDecrease;
     done[minDegreeNode] = true;
 
@@ -120,10 +156,6 @@ vector<bool> RandomGreedy1(const Graph &graph, const vector<bool> &cur_sol) {
     }
     minSet.erase(it);
   }
-  //    for(auto x:output){
-  //        cout<<x<<" ";
-  //    }
-  //    cout<<endl;
   return output;
 }
 void swap_some_feature(set<string> &included, set<string> &others) {
@@ -136,29 +168,17 @@ void swap_some_feature(set<string> &included, set<string> &others) {
     included.erase(sit);
     return;
   }
-  // if (included.size() == 0) {
-  {
-    int t = rng() % others.size();
-    auto tit = others.begin();
-    advance(tit, t);
-    included.insert(*tit);
-    others.erase(tit);
-    return;
-  }
-  int s = rng() % included.size();
+
   int t = rng() % others.size();
-  auto sit = included.begin();
   auto tit = others.begin();
-  advance(sit, s);
   advance(tit, t);
-  auto f1 = *sit, f2 = *tit;
-  included.erase(sit);
+  included.insert(*tit);
   others.erase(tit);
-  included.insert(f2);
-  others.insert(f1);
+  return;
 }
 
-vector<bool> random_feature_swap(const Graph &g, const vector<bool> &sol) {
+SAState random_feature_swap(const SAState &sol) {
+  const Graph &g = sol.graph;
   set<string> all_features;
   using client_id = int;
 
@@ -173,14 +193,14 @@ vector<bool> random_feature_swap(const Graph &g, const vector<bool> &sol) {
   set<string> includedFeatures = all_features;
   set<string> otherFeatures;
   for (int i = 0; i < g.numberOfClients; i++) {
-    if (sol[i]) {
+    if (sol.clientsSatistied[i]) {
       for (auto feature : g.input.featureDisLiked[i]) {
         includedFeatures.erase(feature);
         otherFeatures.insert(feature);
       }
     }
   }
-  vector<bool> output(g.numberOfClients, false);
+  vector<bool> out(g.numberOfClients, false);
   swap_some_feature(includedFeatures, otherFeatures);
   for (client_id id = 0; id < g.numberOfClients; id++) {
     bool valid = true;
@@ -199,75 +219,26 @@ vector<bool> random_feature_swap(const Graph &g, const vector<bool> &sol) {
       }
     }
     if (valid) {
-      output[id] = true;
+      out[id] = true;
     }
   }
-  return output;
+  SAState state(sol);
+  state.clientsSatistied = out;
+  return state;
 }
 
-vector<bool>
-SimulatedAnealing::generate_next_solution(const vector<bool> &cur_sol) {
-  // if (get_probability() < 0.33)
-  //   return random_feature_swap(this->g, cur_sol);
-  if (get_probability() < 1)
-    return RandomGreedy(this->g, cur_sol);
-  int s = cur_sol.size();
-  int v = rng() % s;
-  vector<bool> pos_sol = cur_sol;
-  pos_sol[v] = !pos_sol[v];
-  return pos_sol;
+SAState nextStateWithClientSwap(const SAState &otherState) {
+  SAState state(otherState);
+  int v = rng() % state.clientsSatistied.size();
+  state.clientsSatistied[v] = !state.clientsSatistied[v];
+  return state;
 }
 
-Output SimulatedAnealing::solve() {
-  vector<bool> cur_sol = this->init_solver(g);
-  SA_soln_status status;
-  double cur_temp = init_temp;
-  int p = 0;
-  for (auto x : cur_sol) {
-    p += x;
+SAState SAState::getNeighbouringState() const {
+  double prob = get_probability();
+  if (this->enableHeuristic) {
+    if (get_probability() < 0.33)
+      return nextStateWithRandomHeuristic(*this);
   }
-  cout << "initial val : " << p << endl;
-  while (cur_temp > end_temp) {
-    for (int i = 0; i < num_iter; i++) {
-      vector<bool> pos_sol = this->generate_next_solution(cur_sol);
-      status = this->acceptable(cur_sol, pos_sol, cur_temp);
-
-      if (status == SA_soln_status::CHANGE) {
-        cur_sol = pos_sol;
-      } else if (status == SA_soln_status::GOOD_TO_BREAK) {
-        cur_sol = pos_sol;
-        break;
-      }
-    }
-    int p = 0;
-    for (auto x : cur_sol) {
-      p += x;
-    }
-    bool valid = true;
-    for (auto e : this->g.edges) {
-      if (cur_sol[e.first] && cur_sol[e.second]) {
-        valid = false;
-      }
-    }
-    cur_temp = this->update_temp(cur_temp);
-    cout << "At temp " << cur_temp << " val : " << p
-         << " with valid : " << valid << endl;
-  }
-  Output output;
-  for (int id = 0; id < this->g.numberOfClients; id++) {
-    for (auto feature : g.input.featureLiked[id]) {
-      output.features.insert(feature);
-    }
-    for (auto feature : g.input.featureDisLiked[id]) {
-      output.features.insert(feature);
-    }
-  }
-  for (int id = 0; id < this->g.numberOfClients; id++) {
-    if (cur_sol[id]) {
-      for (auto feature : g.input.featureDisLiked[id]) {
-        output.features.erase(feature);
-      }
-    }
-  }
-  return output;
+  return nextStateWithClientSwap(*this);
 }

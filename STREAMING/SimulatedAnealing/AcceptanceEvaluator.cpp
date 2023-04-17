@@ -2,6 +2,7 @@
 #include "../shared/utils.h"
 #include "CostEvaluator.h"
 #include "SA_HyperParameters.h"
+#include <iomanip>
 AcceptanceEvaluator::AcceptanceEvaluator(SA_HyperParams &params)
     : cost_evalute(params) {
   this->not_changed_until = 0;
@@ -16,7 +17,7 @@ SA_soln_status AcceptanceEvaluator::operator()(const SAState &cur_sol,
   double cur_cost = cost_evalute(cur_sol);
   double pos_cost = cost_evalute(pos_sol);
 
-  if (pos_cost < cur_cost) {
+  if (pos_cost <= cur_cost) {
     status = SA_soln_status::CHANGE;
     this->not_changed_until = 0;
     return status;
@@ -26,7 +27,9 @@ SA_soln_status AcceptanceEvaluator::operator()(const SAState &cur_sol,
 
   double prob = (cur_cost - pos_cost) / temperature;
   prob = exp(prob);
-  if (rand_prob <= prob) {
+  if (rand_prob < prob) {
+    // cout << "probabilty explore" << fixed << setprecision(10) << prob <<
+    // endl;
     this->not_changed_until = 0;
     return SA_soln_status::CHANGE;
   }
