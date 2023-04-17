@@ -7,6 +7,7 @@
 
 #include <bits/stdc++.h>
 #include "../../shared/Graph.h"
+#include "../../shared/utils.h"
 
 namespace genetic{
 
