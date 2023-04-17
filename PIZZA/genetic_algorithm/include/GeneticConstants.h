@@ -6,9 +6,9 @@
 #define FYP_GENETICCONSTANTS_H
 
 namespace params{
-    const int GENERATIONS=500;
-    const int POP_SIZE=200;
-    const int PICKER_SAMPLES=100;
+    const int GENERATIONS=150;
+    const int POP_SIZE=250;
+    const int PICKER_SAMPLES=150;
     const double EVOLUTION_RATE=0.03;
 }
 

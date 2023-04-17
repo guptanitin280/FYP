@@ -33,6 +33,7 @@ Genome::Genome(uint32_t _n,Graph& _g,vector<bool>_bits,uint32_t (* _f)(Genome&))
 
 void Genome::modify_gene(vector<bool> new_gene){
     bits=new_gene;
+    if(get_probability()< 0.002)cout<<"SOLUTION IMPROVED"<<endl;
 }
 
 uint32_t Genome::calc_fitness() {
