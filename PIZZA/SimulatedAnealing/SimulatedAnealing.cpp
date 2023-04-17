@@ -2,6 +2,7 @@
 #include "../../shared/utils.h"
 #include "SA_HyperParameters.h"
 #include <algorithm>
+#include <fstream>
 #include <iterator>
 #include <vector>
 
@@ -207,10 +208,10 @@ vector<bool> random_feature_swap(const Graph &g, const vector<bool> &sol) {
 
 vector<bool>
 SimulatedAnealing::generate_next_solution(const vector<bool> &cur_sol) {
-  // if (get_probability() < 0.33)
+  // if (get_probability() < 0.10)
   //   return random_feature_swap(this->g, cur_sol);
-  if (get_probability() < 1)
-    return RandomGreedy(this->g, cur_sol);
+  // if (get_probability() < 0.33)
+  //   return RandomGreedy(this->g, cur_sol);
   int s = cur_sol.size();
   int v = rng() % s;
   vector<bool> pos_sol = cur_sol;
@@ -226,8 +227,13 @@ Output SimulatedAnealing::solve() {
   for (auto x : cur_sol) {
     p += x;
   }
+  int it = 0;
+  ofstream fout;
+  fout.open("ip4.txt");
   cout << "initial val : " << p << endl;
+  fout << 1 << " " << p << " " << 1 << endl;
   while (cur_temp > end_temp) {
+    it++;
     for (int i = 0; i < num_iter; i++) {
       vector<bool> pos_sol = this->generate_next_solution(cur_sol);
       status = this->acceptable(cur_sol, pos_sol, cur_temp);
@@ -252,6 +258,7 @@ Output SimulatedAnealing::solve() {
     cur_temp = this->update_temp(cur_temp);
     cout << "At temp " << cur_temp << " val : " << p
          << " with valid : " << valid << endl;
+    fout << it << " " << p << " " << valid << endl;
   }
   Output output;
   for (int id = 0; id < this->g.numberOfClients; id++) {
@@ -269,5 +276,6 @@ Output SimulatedAnealing::solve() {
       }
     }
   }
+  fout.close();
   return output;
 }
