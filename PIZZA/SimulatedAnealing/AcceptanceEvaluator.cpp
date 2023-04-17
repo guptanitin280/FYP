@@ -1,5 +1,5 @@
 #include "AcceptanceEvaluator.h"
-#include "../../shared/utils.h"
+#include "../shared/utils.h"
 #include "CostEvaluator.h"
 #include "SA_HyperParameters.h"
 AcceptanceEvaluator::AcceptanceEvaluator(SA_HyperParams &params, Graph &g)
@@ -8,8 +8,8 @@ AcceptanceEvaluator::AcceptanceEvaluator(SA_HyperParams &params, Graph &g)
   this->good_to_break_threshhold = not_changed_until;
 }
 
-SA_soln_status AcceptanceEvaluator::operator()(const vector<bool> &cur_sol,
-                                               const vector<bool> &pos_sol,
+SA_soln_status AcceptanceEvaluator::operator()(const SAState &cur_sol,
+                                               const SAState &pos_sol,
                                                double temperature) {
 
   SA_soln_status status;
@@ -25,11 +25,11 @@ SA_soln_status AcceptanceEvaluator::operator()(const vector<bool> &cur_sol,
   double rand_prob = get_probability();
 
   double prob = (cur_cost - pos_cost) / temperature;
-  int s = cur_sol.size();
+  int s = cur_sol.clientsSatistied.size();
   for (int i = 0; i < s; i++) {
-    if (cur_sol[i] != pos_sol[i]) {
+    if (cur_sol.clientsSatistied[i] != pos_sol.clientsSatistied[i]) {
       double deg_cont = (2 * g.G[i].size()) / (double)(g.edges.size());
-      if (pos_sol[i]) {
+      if (pos_sol.clientsSatistied[i]) {
         // node is being added :
         prob *= (1 + deg_cont);
       } else {

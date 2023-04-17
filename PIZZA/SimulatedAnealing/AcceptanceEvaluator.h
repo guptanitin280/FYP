@@ -2,6 +2,7 @@
 #define FYP_SA_ACCAPTANCEEVALUATOR_H
 
 #include "CostEvaluator.h"
+#include "SAState.h"
 #include "SA_HyperParameters.h"
 #include <vector>
 using namespace std;
@@ -18,8 +19,8 @@ class AcceptanceEvaluator {
 
 public:
   AcceptanceEvaluator(SA_HyperParams &params, Graph &g);
-  SA_soln_status operator()(const vector<bool> &cur_sol,
-                            const vector<bool> &pos_sol, double temperature);
+  SA_soln_status operator()(const SAState &cur_sol, const SAState &pos_sol,
+                            double temperature);
 };
 
 #endif
