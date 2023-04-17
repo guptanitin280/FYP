@@ -38,7 +38,7 @@ void solve() {
   param.end_temp = 0.06;
   param.num_iter = 1000;
 
-  SimulatedAnealing sm(I, RandomGreedyConst, param);
+  SimulatedAnealing sm(I, RandomGreedyConst, param, true);
   auto sol = sm.solve();
   dbg_out(Score::calculate(I, sol));
 }

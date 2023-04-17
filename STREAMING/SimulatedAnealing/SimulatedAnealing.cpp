@@ -9,12 +9,19 @@
 #include <vector>
 
 SimulatedAnealing::SimulatedAnealing(Input &_input, init_solver_ptr init_solver,
-                                     SA_HyperParams &params)
-    : input(_input), acceptable(params), init_solver(init_solver) {
+                                     SA_HyperParams &params,
+                                     bool enableHeuristic)
+    : input(_input), acceptable(params), init_solver(init_solver),
+      enableHeuristic(enableHeuristic) {
   init_temp = params.init_temp;
   end_temp = params.end_temp;
   cool_down_rate = params.cool_down_rate;
   num_iter = params.num_iter;
+  if (enableHeuristic) {
+    fout.open("heuristic.txt");
+  } else {
+    fout.open("non-heuristic.txt");
+  }
 };
 
 double SimulatedAnealing::update_temp(double cur_temp) {
@@ -23,28 +30,25 @@ double SimulatedAnealing::update_temp(double cur_temp) {
 SAState SimulatedAnealing::generate_next_solution(const SAState &cur_sol) {
   return cur_sol.getNeighbouringState();
 }
+
+void log(ofstream &fout, SAState &curState, int iteration, double temperature) {
+  bool valid = curState.isValid();
+  cout << "At temp " << fixed << setprecision(8) << temperature
+       << " latency : " << curState.getAvgLatencyContri()
+       << " with valid : " << valid << endl;
+  fout << iteration << " " << curState.score() << " " << valid << endl;
+}
 Output SimulatedAnealing::solve() {
-  // vector<vector<bool>> cur_sol_mat = this->init_solver(input);
-  vector<vector<bool>> cur_sol_mat = vector<vector<bool>>(
-      input.cacheServer + 1, vector<bool>(input.videos, true));
-  SAState curState(this->input, cur_sol_mat);
-  Output curOut;
-  curOut.numServers = this->input.cacheServer;
-  curOut.numVideos = this->input.videos;
-  curOut.videosServed = cur_sol_mat;
-  cout << Score::calculate(this->input, curOut) << endl;
+  vector<vector<bool>> cur_sol_mat =
+      this->enableHeuristic
+          ? vector<vector<bool>>(input.cacheServer + 1,
+                                 vector<bool>(input.videos, true))
+          : this->init_solver(input);
+  SAState curState(this->input, cur_sol_mat, this->enableHeuristic);
   SA_soln_status status;
   double cur_temp = init_temp;
-
-  ofstream fout;
-  cout << "enter out file " << endl;
-  string s;
-  cin >> s;
-  fout.open(s + ".txt");
   int it = 0;
-  fout << it << " " << curState.score() << " " << 1 << endl;
-  cout << "initial latency percentage : " << fixed << setprecision(8)
-       << curState.getAvgLatencyContri() << endl;
+  log(this->fout, curState, it, cur_temp);
   while (cur_temp > end_temp) {
     it++;
     for (int i = 0; i < num_iter; i++) {
@@ -59,11 +63,7 @@ Output SimulatedAnealing::solve() {
     }
     bool valid = curState.isValid();
     cur_temp = this->update_temp(cur_temp);
-    cout << "At temp " << fixed << setprecision(8) << cur_temp
-         << " latency : " << curState.getAvgLatencyContri()
-         << " with valid : " << valid << endl;
-    if (valid)
-      fout << it << " " << curState.score() << " " << 1 << endl;
+    log(this->fout, curState, it, cur_temp);
   }
   Output output;
   output.numVideos = this->input.videos;
@@ -71,3 +71,5 @@ Output SimulatedAnealing::solve() {
   output.videosServed = curState.videoServed;
   return output;
 }
+
+SimulatedAnealing::~SimulatedAnealing() { this->fout.close(); }

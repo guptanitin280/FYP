@@ -2,8 +2,9 @@
 #include "../shared/Output.h"
 #include "../shared/Score.h"
 #include "../shared/utils.h"
-SAState::SAState(const Input &input, std::vector<vector<bool>> &videoServed)
-    : input(input), videoServed(videoServed) {
+SAState::SAState(const Input &input, std::vector<vector<bool>> &videoServed,
+                 bool enableHeuristic)
+    : input(input), videoServed(videoServed), enableHeuristic(enableHeuristic) {
   double totalLatency = 0;
   for (auto request : this->input.requestsDescription) {
     int video_id = request[0], endpoint_id = request[1],
@@ -14,9 +15,9 @@ SAState::SAState(const Input &input, std::vector<vector<bool>> &videoServed)
 }
 
 SAState::SAState(const Input &input, std::vector<vector<bool>> &videoServed,
-                 double maxTotalLatency)
-    : input(input), videoServed(videoServed), maxTotalLatency(maxTotalLatency) {
-}
+                 double maxTotalLatency, bool enableHeuristic)
+    : input(input), videoServed(videoServed), maxTotalLatency(maxTotalLatency),
+      enableHeuristic(enableHeuristic) {}
 
 void SAState::operator=(const SAState &otherState) {
   this->videoServed = otherState.videoServed;
@@ -24,7 +25,8 @@ void SAState::operator=(const SAState &otherState) {
 
 SAState::SAState(const SAState &otherState)
     : input(otherState.input), videoServed(otherState.videoServed),
-      maxTotalLatency(otherState.maxTotalLatency) {}
+      maxTotalLatency(otherState.maxTotalLatency),
+      enableHeuristic(otherState.enableHeuristic) {}
 
 bool SAState::isValid() const {
   for (int cacheServer_id = 1; cacheServer_id <= this->input.cacheServer;
@@ -225,14 +227,16 @@ SAState alter_random_cache(const SAState &state) {
 }
 SAState SAState::getNeighbouringState() const {
   double prob = get_probability();
-  if (prob < 0.02) {
-    return alter_random_cache(*this);
+  if (this->enableHeuristic) {
+    if (prob < 0.02) {
+      return alter_random_cache(*this);
+    }
+    if (prob < 0.10) {
+      return swap_random_perc(*this, 0.03);
+    }
+    if (prob < 0.33) {
+      return next_good_neighbour(*this, prob);
+    }
   }
-  // if (prob < 0.10) {
-  //   return swap_random_perc(*this, 0.03);
-  // }
-  // if (prob < 0.33) {
-  //   return next_good_neighbour(*this, prob);
-  // }
   return swap_random(*this);
 }

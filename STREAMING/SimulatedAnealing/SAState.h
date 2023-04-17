@@ -5,10 +5,12 @@ class SAState {
 public:
   const Input &input;
   double maxTotalLatency;
+  bool enableHeuristic;
   std::vector<vector<bool>> videoServed;
-  SAState(const Input &input, std::vector<vector<bool>> &videoServed);
   SAState(const Input &input, std::vector<vector<bool>> &videoServed,
-          double maxTotalLatency);
+          bool enableHeuristic);
+  SAState(const Input &input, std::vector<vector<bool>> &videoServed,
+          double maxTotalLatency, bool enableHeuristic);
   SAState(const SAState &otherState);
   void operator=(const SAState &otherState);
   bool isValid() const;

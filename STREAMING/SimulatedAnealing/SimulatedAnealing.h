@@ -7,6 +7,7 @@
 #include "SAState.h"
 #include "SA_HyperParameters.h"
 #include <cstdint>
+#include <iostream>
 #include <vector>
 using namespace std;
 using init_solver_ptr = vector<vector<bool>> (*)(const Input &);
@@ -17,6 +18,8 @@ class SimulatedAnealing {
   double cool_down_rate;
   int32_t num_iter;
   Input input;
+  bool enableHeuristic;
+  ofstream fout;
   init_solver_ptr init_solver;
   double update_temp(double cur_temp);
   SAState generate_next_solution(const SAState &cur_sol);
@@ -24,8 +27,9 @@ class SimulatedAnealing {
 
 public:
   SimulatedAnealing(Input &_input, init_solver_ptr init_solver,
-                    SA_HyperParams &params);
+                    SA_HyperParams &params, bool enableHeuristic);
   Output solve();
+  ~SimulatedAnealing();
 };
 
 #endif
