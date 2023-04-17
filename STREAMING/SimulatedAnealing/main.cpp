@@ -26,7 +26,7 @@ void solve() {
   SimulatedAnealing sm2(I, RandomGreedyConst, param, enableHeuristic);
   auto sol2 = sm2.solve();
 
-  cout << "Final score is :" << Score::calculate(I, sol) << endl;
+  cout << "Final score is :" << Score::calculate(I, sol2) << endl;
 }
 
 int32_t main() { solve(); }
