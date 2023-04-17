@@ -35,7 +35,6 @@ Genome GeneticSolver::iterate(uint32_t generation_number) {
     for (int i = 0; i < 10; ++i) {
         auto idx = rand(0,((int)population.size()) -1);
         auto fitness = population[idx].calc_fitness();
-//        cout<<"firness"<<idx<<" "<<fitness;
         if (fitness <= min_fitness) {
             min_fitness = fitness;
             worst = idx;
@@ -52,15 +51,11 @@ Genome GeneticSolver::iterate(uint32_t generation_number) {
         to_try--;
         auto a = picker.pick(population);
         auto b = picker.pick(population);
-//        cout<<"prev: "<<member.calc_fitness()<<endl;
         member.modify_gene(breeder.breed(population[a],population[b]));
-//        cout<<"breed: "<<member.calc_fitness()<<endl;
         evolver.evolve(member.bits);
-//        cout<<"evolve: "<<member.calc_fitness()<<endl;
         greedy_local_search(member.bits,g);
-//        cout<<"greedy: "<<member.calc_fitness()<<endl;
         if(member.calc_fitness()>population[a].calc_fitness())
-            cout<<population[a].calc_fitness()<<" "<<population[b].calc_fitness()<<" "<<member.calc_fitness()<<endl;
+            cout<<"SOLUTION IMPROVED"<<endl;
 
         auto [_, ok] = duplicates.emplace(member.bits);
         if (!ok) {
@@ -68,7 +63,7 @@ Genome GeneticSolver::iterate(uint32_t generation_number) {
         }
         uint32_t curFitness=member.calc_fitness();
         if(curFitness > maxFitness){
-            cout<<"==============================================================================="<<endl;
+            cout<<"SOLUTION IMPROVED"<<endl;
             maxFitness=curFitness;
             bestGenome.modify_gene(member.bits);
             bestGenome.fitness=curFitness;
@@ -94,7 +89,6 @@ bool GeneticSolver::insertRandom() {
         bestGenome.modify_gene(mem.bits);
         bestGenome.fitness=curFitness;
     }
-    cout<<"initial maxFitness"<<maxFitness<<endl;
     return true;
 }
 

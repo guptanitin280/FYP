@@ -5,7 +5,7 @@ project(STREAMING)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_FLAGS -DFYP)
 
-add_library(genetic_lib genetic/include/Breeder.h genetic/include/Evolver.h genetic/include/GeneticConstants.h genetic/include/GeneticSolver.h genetic/include/Genome.h genetic/include/Picker.h genetic/src/Genome.cpp genetic/heuristics/fitness_functions/TimeSaved.cpp genetic/heuristics/fitness_functions/TimeSaved.h genetic/heuristics/fitness_functions/CacheUtilisation.cpp genetic/heuristics/fitness_functions/CacheUtilisation.h)
+add_library(genetic_lib genetic/include/Breeder.h genetic/include/Evolver.h genetic/include/GeneticConstants.h genetic/include/GeneticSolver.h genetic/include/Genome.h genetic/include/Picker.h genetic/src/Genome.cpp genetic/heuristics/fitness_functions/TimeSaved.cpp genetic/heuristics/fitness_functions/TimeSaved.h genetic/heuristics/fitness_functions/CacheUtilisation.cpp genetic/heuristics/fitness_functions/CacheUtilisation.h genetic/heuristics/fitness_functions/VideosStored.cpp genetic/heuristics/fitness_functions/VideosStored.h)
 target_sources(genetic_lib PUBLIC genetic/src/GeneticSolver.cpp )
 
 set(SHARED_SOURCES shared/Score.cpp shared/utils.cpp  shared/Input.cpp shared/Output.cpp)

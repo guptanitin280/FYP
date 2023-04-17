@@ -1,23 +1,16 @@
-<<<<<<< HEAD
 #include<bits/stdc++.h>
 #include "shared/Input.h"
+#include "shared/Output.h"
+#include "shared/Score.h"
+
 #include "genetic/include/Breeder.h"
 #include "genetic/include/Evolver.h"
 #include "genetic/include/GeneticSolver.h"
+#include "genetic/include/GeneticConstants.h"
 #include "genetic/include/Genome.h"
 #include "genetic/include/Picker.h"
 #include "genetic/heuristics/fitness_functions/TimeSaved.h"
-#include "genetic/heuristics/fitness_functions/CacheUtilisation.h"
-
 #include "heuristics/RandomGreedy.h"
-=======
-#include "SimulatedAnealing/SA_HyperParameters.h"
-#include "SimulatedAnealing/SimulatedAnealing.h"
-#include "heuristics/RandomGreedy.h"
-#include "shared/Input.h"
-#include "shared/Score.h"
-#include <bits/stdc++.h>
->>>>>>> origin/main
 
 
 using namespace std;
@@ -33,20 +26,21 @@ template<typename Head, typename... Tail> void dbg_out(Head H, Tail... T) { cerr
 
 
 int main() {
-    string filePath = "test_data/gen400-p0-9-75.txt";
+    string filePath = "test_data/G.txt";
 
     Input gp(filePath);
-    cout<<"Graph Made"<<endl;
-    RandomBestPicker picker(150);
-    SimpleEvolver evolver(0.03);
+    RandomBestPicker picker(params::PICKER_SAMPLES);
+    SimpleEvolver evolver(params::EVOLUTION_RATE);
     RandomBreeder breeder;
-    GeneticSolver solver(gp.cacheServer,gp.videos,gp,250,picker,evolver,breeder, TimeSaved,RandomGreedy);
-    Genome result=solver.Solve(150);
+    GeneticSolver solver(gp.cacheServer,gp.videos,gp,params::POP_SIZE,picker,evolver,breeder, TimeSaved,RandomGreedy);
+    Genome result=solver.Solve(50);
     cout<<result.isValid()<<endl;
     cout<<result.calc_fitness()<<endl;
-    cout<<"final ans"<<result.bits<<endl;
-//    cout<<gp.numberOfClients<<endl;
-//    dbg_out(gp.G);
+    Output op;
+    op.numServers=gp.cacheServer;
+    op.numVideos=gp.videos;
+    op.videosServed=result.bits;
+    cout<<Score::calculate(gp,op)<<endl;
 
 
     return 0;
