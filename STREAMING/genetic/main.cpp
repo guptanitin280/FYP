@@ -10,14 +10,12 @@
 #include "genetic/heuristics/fitness_functions/CacheUtilisation.h"
 
 #include "heuristics/RandomGreedy.h"
-=======
 #include "SimulatedAnealing/SA_HyperParameters.h"
 #include "SimulatedAnealing/SimulatedAnealing.h"
 #include "heuristics/RandomGreedy.h"
 #include "shared/Input.h"
 #include "shared/Score.h"
 #include <bits/stdc++.h>
->>>>>>> origin/main
 
 
 using namespace std;

@@ -1,49 +1,47 @@
-#include <bits/stdc++.h>
+#include<bits/stdc++.h>
 #include "shared/Input.h"
-#include "aco/aco.h"
 #include "shared/Output.h"
 #include "shared/Score.h"
 
-#define int long long
+#include "genetic/include/Breeder.h"
+#include "genetic/include/Evolver.h"
+#include "genetic/include/GeneticSolver.h"
+#include "genetic/include/GeneticConstants.h"
+#include "genetic/include/Genome.h"
+#include "genetic/include/Picker.h"
+#include "genetic/heuristics/fitness_functions/TimeSaved.h"
+#include "heuristics/RandomGreedy.h"
 
 
-#define nitin          ios_base::sync_with_stdio(false); cin.tie(nullptr)
 using namespace std;
-template<typename A, typename B> ostream& operator<<(ostream &os, const pair<A, B> &p) { return os << '(' << p.f << ", " << p.second << ')'; }
+using namespace genetic;
+
+using namespace std;
+template<typename A, typename B> ostream& operator<<(ostream &os, const pair<A, B> &p) { return os << '(' << p.first << ", " << p.second << ')'; }
 template<typename T_container, typename T = typename enable_if<!is_same<T_container, string>::value, typename T_container::value_type>::type> ostream& operator<<(ostream &os, const T_container &v) { os << '{'; string sep; for (const T &x : v) os << sep << x, sep = ", "; return os << '}'; }
 
 void dbg_out() { cerr << endl; }
 template<typename Head, typename... Tail> void dbg_out(Head H, Tail... T) { cerr << ' ' << H; dbg_out(T...); }
 
-#ifdef FYP
-#define dbg(...) cerr << "(" << #__VA_ARGS__ << "):", dbg_out(__VA_ARGS__)
-#else
-#define dbg(...)
-#endif
 
-void solve(string fileName) {
-    Input I("test_data/"+fileName+".txt");
-    aco::ff.open(fileName+".txt");
-    {
-        aco a(I,initializingAlgo::CLASSICAL_WAY);
-        Output o=a.run(200);
-        cout<<Score::calculate(I,o)<<endl;
-        cout<<a.isValid()<<endl;
-    }
 
-    {
-        aco b(I,initializingAlgo::RANDOM_GREEDY_WAY);
-        Output p=b.run(200);
-        cout<<Score::calculate(I,p)<<endl;
-        cout<<b.isValid()<<endl;
-    }
-    aco::ff.close();
-}
+int main() {
+    string filePath = "test_data/G.txt";
 
-int32_t main() {
-    nitin;
+    Input gp(filePath);
+    RandomBestPicker picker(params::PICKER_SAMPLES);
+    SimpleEvolver evolver(params::EVOLUTION_RATE);
+    RandomBreeder breeder;
+    GeneticSolver solver(gp.cacheServer,gp.videos,gp,params::POP_SIZE,picker,evolver,breeder, TimeSaved,RandomGreedy);
+    Genome result=solver.Solve(50);
+    cout<<result.isValid()<<endl;
+    cout<<result.calc_fitness()<<endl;
+    Output op;
+    op.numServers=gp.cacheServer;
+    op.numVideos=gp.videos;
+    op.videosServed=result.bits;
+    cout<<Score::calculate(gp,op)<<endl;
 
-    for (char c = 'A'; c <= 'I'; c++) {
-        solve(string(1, c));
-    }
+
+    return 0;
 }
