@@ -234,6 +234,9 @@ SAState nextStateWithClientSwap(const SAState &otherState) {
   return state;
 }
 
+// Other heuristics :
+//  1. Next state with greedy heuristics
+//  2. Next state with one of random feature swap
 SAState SAState::getNeighbouringState() const {
   double prob = get_probability();
   if (this->enableHeuristic) {

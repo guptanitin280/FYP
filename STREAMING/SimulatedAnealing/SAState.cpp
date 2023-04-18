@@ -107,7 +107,7 @@ pair<double, double> SAState::cacheServerUtilisation() const {
           excess_cap_perc / this->input.cacheServer};
 }
 
-SAState next_good_neighbour(const SAState &state, double perc) {
+SAState nextStateWithRandomPairs(const SAState &state, double perc) {
   const Input &input = state.input;
   vector<int> on;
   for (int cacheServer_id = 1; cacheServer_id <= input.cacheServer;
@@ -163,7 +163,7 @@ SAState next_good_neighbour(const SAState &state, double perc) {
   return nextState;
 }
 
-SAState swap_random(const SAState &state) {
+SAState swap_random_pair(const SAState &state) {
   const Input &input = state.input;
   SAState nextState(state);
 
@@ -235,8 +235,8 @@ SAState SAState::getNeighbouringState() const {
       return swap_random_perc(*this, 0.03);
     }
     if (prob < 0.33) {
-      return next_good_neighbour(*this, prob);
+      return nextStateWithRandomPairs(*this, prob);
     }
   }
-  return swap_random(*this);
+  return swap_random_pair(*this);
 }
